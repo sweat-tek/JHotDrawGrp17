@@ -8,6 +8,18 @@
 	</parent>
 	<artifactId>jhotdraw-samples-misc</artifactId>
 	<packaging>jar</packaging>
+	<repositories>
+		<!--
+        Repository hosting NetBeans modules, especially APIs.
+        Versions are based on IDE releases, e.g.: RELEASE691
+        To create your own repository, use: nbm:populate-repository
+        -->
+		<repository>
+			<id>git-corfixen</id>
+			<name>corfixen's Git based repo</name>
+			<url>https://github.com/sweat-tek/MavenRepository/raw/repository/</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -18,6 +30,16 @@
 			<groupId>org.devzendo</groupId>
 			<artifactId>Quaqua</artifactId>
 			<version>7.3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>dk.sdu.mmmi</groupId>
+			<artifactId>featuretracer</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.9</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sourceforge.htmlunit</groupId>
