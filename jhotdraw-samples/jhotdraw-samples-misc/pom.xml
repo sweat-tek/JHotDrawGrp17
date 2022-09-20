@@ -15,9 +15,9 @@
         To create your own repository, use: nbm:populate-repository
         -->
 		<repository>
-			<id>git-corfixen</id>
+			<id>github</id>
 			<name>corfixen's Git based repo</name>
-			<url>https://github.com/sweat-tek/MavenRepository/raw/repository/</url>
+			<url>https://maven.pkg.github.com/sweat-tek/MavenRepository</url>
 		</repository>
 	</repositories>
 	<dependencies>
