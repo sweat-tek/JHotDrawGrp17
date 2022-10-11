@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
@@ -71,6 +72,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         setConnectable(false);
     }
 
+    @FeatureEntryPoint(value="draw")
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
@@ -105,6 +107,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
 
+    @FeatureEntryPoint(value="drawFigure")
     @Override
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
@@ -133,11 +136,13 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         // empty
     }
 
+    @FeatureEntryPoint(value="drawFill")
     @Override
     public void drawFill(Graphics2D g) {
         g.fill(getPath());
     }
 
+    @FeatureEntryPoint(value="drawStroke")
     @Override
     public void drawStroke(Graphics2D g) {
         g.draw(getPath());
@@ -151,6 +156,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         cachedHitShape = null;
     }
 
+    @FeatureEntryPoint(value="getpath")
     protected Path2D.Double getPath() {
         if (cachedPath == null) {
             cachedPath = new Path2D.Double();
@@ -333,6 +339,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return true;
     }
 
+    @FeatureEntryPoint(value="createHandles")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -356,6 +363,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return handles;
     }
 
+    @FeatureEntryPoint(value="getActions")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -475,6 +483,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * Handles a mouse click.
      */
+    @FeatureEntryPoint(value="handleMouseClick")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
