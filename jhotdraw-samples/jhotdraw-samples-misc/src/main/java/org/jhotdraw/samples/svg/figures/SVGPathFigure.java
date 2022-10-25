@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
@@ -71,6 +72,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         setConnectable(false);
     }
 
+    @FeatureEntryPoint(value="draw")
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
@@ -356,6 +358,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return handles;
     }
 
+    @FeatureEntryPoint(value="getActions")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -388,6 +391,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             return labels.getString("edit.flattenTransform.text");
                         }
 
+                        @FeatureEntryPoint(value="undo")
                         @Override
                         public void undo() throws CannotUndoException {
                             super.undo();
@@ -396,6 +400,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             changed();
                         }
 
+                        @FeatureEntryPoint(value="redo")
                         @Override
                         public void redo() throws CannotRedoException {
                             super.redo();
