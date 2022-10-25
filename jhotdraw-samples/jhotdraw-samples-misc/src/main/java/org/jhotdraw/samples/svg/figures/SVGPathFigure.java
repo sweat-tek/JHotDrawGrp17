@@ -72,7 +72,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         setConnectable(false);
     }
 
-    @FeatureEntryPoint(value="draw")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
@@ -107,7 +107,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
 
-    @FeatureEntryPoint(value="drawFigure")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
@@ -136,13 +136,13 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         // empty
     }
 
-    @FeatureEntryPoint(value="drawFill")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawFill(Graphics2D g) {
         g.fill(getPath());
     }
 
-    @FeatureEntryPoint(value="drawStroke")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawStroke(Graphics2D g) {
         g.draw(getPath());
@@ -156,7 +156,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         cachedHitShape = null;
     }
 
-    @FeatureEntryPoint(value="getpath")
+    @FeatureEntryPoint(value="LineTool")
     protected Path2D.Double getPath() {
         if (cachedPath == null) {
             cachedPath = new Path2D.Double();
@@ -339,7 +339,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return true;
     }
 
-    @FeatureEntryPoint(value="createHandles")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -363,7 +363,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return handles;
     }
 
-    @FeatureEntryPoint(value="getActions")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -483,7 +483,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * Handles a mouse click.
      */
-    @FeatureEntryPoint(value="handleMouseClick")
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
