@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.*;
@@ -35,10 +36,12 @@ public interface SVGFigureFactory {
             double x, double y, double width, double height, double rx, double ry,
             Map<AttributeKey<?>, Object> attributes);
 
+
     public Figure createCircle(
             double cx, double cy, double r,
             Map<AttributeKey<?>, Object> attributes);
 
+    @FeatureEntryPoint(value = "EllipseTool")
     public Figure createEllipse(
             double cx, double cy, double rx, double ry,
             Map<AttributeKey<?>, Object> attributes);
