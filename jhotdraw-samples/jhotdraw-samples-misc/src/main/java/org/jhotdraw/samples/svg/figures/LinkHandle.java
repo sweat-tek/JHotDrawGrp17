@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.geom.*;
@@ -39,6 +40,7 @@ public class LinkHandle extends AbstractHandle {
     /**
      * Draws this handle.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public void draw(Graphics2D g) {
         Figure o = getOwner();
@@ -54,6 +56,7 @@ public class LinkHandle extends AbstractHandle {
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     protected Rectangle basicGetBounds() {
         Figure o = getOwner();
