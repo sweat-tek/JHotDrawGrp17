@@ -45,6 +45,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+
 public class ODGPathFigure extends AbstractAttributedCompositeFigure implements ODGFigure {
 
     private static final long serialVersionUID = 1L;

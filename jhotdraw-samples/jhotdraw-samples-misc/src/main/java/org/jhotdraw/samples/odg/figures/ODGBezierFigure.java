@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -35,15 +36,18 @@ public class ODGBezierFigure extends BezierFigure {
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public ODGBezierFigure() {
         this(false);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     public ODGBezierFigure(boolean isClosed) {
         super(isClosed);
         set(UNCLOSED_PATH_FILLED, true);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     public Collection<Handle> createHandles(ODGPathFigure pathFigure, int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
@@ -61,6 +65,7 @@ public class ODGBezierFigure extends BezierFigure {
         return handles;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
@@ -95,6 +100,7 @@ public class ODGBezierFigure extends BezierFigure {
         return false;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -111,6 +117,7 @@ public class ODGBezierFigure extends BezierFigure {
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -129,6 +136,7 @@ public class ODGBezierFigure extends BezierFigure {
      * Transforms all coords of the figure by the current TRANSFORM attribute
      * and then sets the TRANSFORM attribute to null.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void flattenTransform() {
         if (get(TRANSFORM) != null) {
             path.transform(get(TRANSFORM));
@@ -137,6 +145,7 @@ public class ODGBezierFigure extends BezierFigure {
         invalidate();
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public void invalidate() {
         super.invalidate();
