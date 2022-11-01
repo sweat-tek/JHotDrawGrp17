@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.event.*;
 import java.awt.geom.*;
@@ -70,7 +71,7 @@ public class ODGBezierFigure extends BezierFigure {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
                     private static final long serialVersionUID = 1L;
-
+                    @FeatureEntryPoint(value="redo")
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();

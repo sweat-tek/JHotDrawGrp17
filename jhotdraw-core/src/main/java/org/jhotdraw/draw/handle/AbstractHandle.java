@@ -173,6 +173,7 @@ public abstract class AbstractHandle implements Handle, FigureListener {
                 getEditor().getHandleAttribute(HandleAttributeKeys.HANDLE_STROKE_COLOR));
     }
 
+
     protected void drawCircle(Graphics2D g, Color fill, Color stroke) {
         Rectangle r = getBounds();
         if (fill != null) {
