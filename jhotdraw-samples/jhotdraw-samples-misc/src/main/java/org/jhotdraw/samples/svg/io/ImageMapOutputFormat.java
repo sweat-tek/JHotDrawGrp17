@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
@@ -203,6 +204,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         return new InputStreamTransferable(new DataFlavor("text/html", "HTML Image Map"), buf.toByteArray());
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     protected void writeElement(Element parent, Figure f) throws IOException {
         if (f instanceof SVGEllipseFigure) {
             writeEllipseElement(parent, (SVGEllipseFigure) f);
@@ -344,6 +346,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the polygon is inside of the image bounds.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private boolean writePolyAttributes(Element elem, SVGFigure f, Shape shape) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
@@ -391,6 +394,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         return path.intersects(new Rectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height));
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     private void writePathElement(Element parent, SVGPathFigure f) throws IOException {
         GrowStroke growStroke = new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0));
         BasicStroke basicStroke = new BasicStroke((float) getStrokeTotalWidth(f, 1.0));
@@ -406,6 +410,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     private void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
@@ -413,6 +418,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     private void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new BasicStroke((float) getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
@@ -420,6 +426,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     private void writeLineElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(new Line2D.Double(

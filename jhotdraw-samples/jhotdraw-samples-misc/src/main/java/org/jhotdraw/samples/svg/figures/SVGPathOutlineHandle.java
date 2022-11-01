@@ -8,6 +8,8 @@
 package org.jhotdraw.samples.svg.figures;
 
 import java.awt.*;
+
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
 import org.jhotdraw.draw.handle.AbstractHandle;
@@ -38,6 +40,7 @@ public class SVGPathOutlineHandle extends AbstractHandle {
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public SVGPathOutlineHandle(SVGPathFigure owner, boolean isHoverHandle) {
         super(owner);
         this.isHoverHandle = isHoverHandle;
@@ -70,6 +73,7 @@ public class SVGPathOutlineHandle extends AbstractHandle {
     public void trackEnd(Point anchor, Point lead, int modifiersEx) {
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public void draw(Graphics2D g) {
         SVGPathFigure o = getOwner();

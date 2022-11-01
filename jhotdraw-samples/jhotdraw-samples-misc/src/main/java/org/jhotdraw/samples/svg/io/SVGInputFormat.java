@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.*;
@@ -782,6 +783,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "polyline" element.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private Figure readPolylineElement(Element elem)
             throws IOException {
         HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
@@ -798,6 +800,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads an SVG "polygon" element.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private Figure readPolygonElement(Element elem)
             throws IOException {
         HashMap<AttributeKey<?>, Object> a = new HashMap<AttributeKey<?>, Object>();
@@ -2330,6 +2333,7 @@ public class SVGInputFormat implements InputFormat {
     /**
      * Reads line and polyline attributes.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private void readLineAttributes(Element elem, HashMap<AttributeKey<?>, Object> a)
             throws IOException {
         Object objectValue;

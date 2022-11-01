@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.geom;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
+
 import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Shape;
@@ -32,6 +34,7 @@ public class ConvexHull {
      * @param points
      * @return convex hull of the points as a polygon object.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public static Polygon getConvexHullPolygon(List<Point> points) {
         Polygon convexHull = new Polygon();
         for (Point p : getConvexHull(points.toArray(new Point[points.size()]))) {
@@ -46,6 +49,7 @@ public class ConvexHull {
      * @param points
      * @return convex hull of the points as a Polygon2D object.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public static Path2D.Double getConvexHullPath2D(List<Point2D.Double> points) {
         Path2D.Double convexHull = new Path2D.Double();
         boolean first = true;
@@ -67,6 +71,7 @@ public class ConvexHull {
      * @param shape an arbitray shape
      * @return convex hull of the points as a Polygon2D object.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public static Path2D.Double getConvexHullPath2D(Shape shape) {
         List<Point2D.Double> points = new LinkedList<>();
         double[] coords = new double[6];
@@ -129,6 +134,7 @@ public class ConvexHull {
      * @param points
      * @return convex hull of the points
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public static Point[] getConvexHull(Point[] points) {
         // Quickly return if no work is needed
         if (points.length < 3) {

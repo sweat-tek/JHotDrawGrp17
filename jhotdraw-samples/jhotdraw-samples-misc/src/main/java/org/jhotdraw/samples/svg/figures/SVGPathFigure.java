@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
@@ -41,6 +42,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 
     private static final long serialVersionUID = 1L;
@@ -71,6 +73,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         setConnectable(false);
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
@@ -105,6 +108,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
@@ -133,11 +137,13 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         // empty
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawFill(Graphics2D g) {
         g.fill(getPath());
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawStroke(Graphics2D g) {
         g.draw(getPath());
@@ -151,6 +157,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         cachedHitShape = null;
     }
 
+    @FeatureEntryPoint(value="LineTool")
     protected Path2D.Double getPath() {
         if (cachedPath == null) {
             cachedPath = new Path2D.Double();
@@ -174,6 +181,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
 
     // int count;
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -200,7 +208,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
-
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public boolean contains(Point2D.Double p) {
         getPath();
@@ -246,6 +254,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return false;
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         if (getChildCount() == 1 && getChild(0).getNodeCount() <= 2) {
@@ -257,6 +266,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -302,6 +312,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public Object getTransformRestoreData() {
         ArrayList<Object> paths = new ArrayList<Object>(getChildCount());
@@ -333,6 +344,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return true;
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -356,6 +368,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return handles;
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -388,6 +401,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             return labels.getString("edit.flattenTransform.text");
                         }
 
+                        @FeatureEntryPoint(value="undo")
                         @Override
                         public void undo() throws CannotUndoException {
                             super.undo();
@@ -396,6 +410,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             changed();
                         }
 
+                        @FeatureEntryPoint(value="redo")
                         @Override
                         public void redo() throws CannotRedoException {
                             super.redo();
@@ -475,6 +490,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * Handles a mouse click.
      */
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
@@ -501,12 +517,14 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return (SVGBezierFigure) super.getChild(index);
     }
 
+    @FeatureEntryPoint(value="LineTool")
     @Override
     public SVGPathFigure clone() {
         SVGPathFigure that = (SVGPathFigure) super.clone();
         return that;
     }
 
+    @FeatureEntryPoint(value="LineTool")
     public void flattenTransform() {
         willChange();
         AffineTransform tx = get(TRANSFORM);

@@ -22,6 +22,8 @@ import java.awt.geom.Path2D;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import static org.testng.Assert.*;
+
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
@@ -78,6 +80,7 @@ public class BezierPathNGTest {
     /**
      * Test of toPolygonArray method, of class BezierPath.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     @Test
     public void testToPolygonArray() {
         BezierPath instance = new BezierPath();

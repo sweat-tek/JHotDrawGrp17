@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.util;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
+
 import java.awt.*;
 import java.awt.image.*;
 import java.net.*;
@@ -26,6 +28,7 @@ public class Images {
     private Images() {
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     public static Image createImage(Class<?> baseClass, String resourceName) {
         URL resource = baseClass.getResource(resourceName);
         if (resource == null) {
@@ -35,6 +38,7 @@ public class Images {
         return image;
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     public static Image createImage(URL resource) {
         if (resource == null) {
             throw new IllegalArgumentException("resource must not be null");

@@ -7,6 +7,8 @@
  */
 package org.jhotdraw.geom;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
+
 import java.awt.*;
 import java.awt.geom.*;
 import java.io.Serializable;
@@ -80,6 +82,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * <li>C2 is used to control the curve going away from C0.</li>
      * </ul>
      */
+
     public static class Node implements Cloneable, Serializable {
 
         private static final long serialVersionUID = 1L;
@@ -103,13 +106,16 @@ public class BezierPath extends ArrayList<BezierPath.Node>
          */
         public boolean keepColinear = true;
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Node() {
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Node(Node that) {
             setTo(that);
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public void setTo(Node that) {
             this.mask = that.mask;
             this.keepColinear = that.keepColinear;
@@ -117,6 +123,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             System.arraycopy(that.y, 0, this.y, 0, 3);
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Node(Point2D.Double c0) {
             this.mask = 0;
             x[0] = c0.x;
@@ -127,6 +134,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             y[2] = c0.y;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Node(int mask, Point2D.Double c0, Point2D.Double c1, Point2D.Double c2) {
             this.mask = mask;
             x[0] = c0.x;
@@ -137,6 +145,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             y[2] = c2.y;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Node(double x0, double y0) {
             this.mask = 0;
             x[0] = x0;
@@ -147,6 +156,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             y[2] = y0;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Node(int mask, double x0, double y0, double x1, double y1, double x2, double y2) {
             this.mask = mask;
             x[0] = x0;
@@ -157,31 +167,38 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             y[2] = y2;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public int getMask() {
             return mask;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public void setMask(int newValue) {
             mask = newValue;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public void setControlPoint(int index, Point2D.Double p) {
             x[index] = p.x;
             y[index] = p.y;
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public Point2D.Double getControlPoint(int index) {
             return new Point2D.Double(x[index], y[index]);
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public void moveTo(Point2D.Double p) {
             moveBy(p.x - x[0], p.y - y[0]);
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public void moveTo(double x, double y) {
             moveBy(x - this.x[0], y - this.y[0]);
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         public void moveBy(double dx, double dy) {
             for (int i = 0; i < 3; i++) {
                 x[i] += dx;
@@ -189,6 +206,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             }
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         @Override
         public Object clone() {
             try {
@@ -203,6 +221,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             }
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         @Override
         public String toString() {
             StringBuilder buf = new StringBuilder();
@@ -229,6 +248,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             return buf.toString();
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         @Override
         public int hashCode() {
             return (mask & 0x3) << 29
@@ -236,6 +256,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
                     | (Arrays.hashCode(y) & 0xffff);
         }
 
+        @FeatureEntryPoint(value = "PolygonTool")
         @Override
         public boolean equals(Object o) {
             if (o instanceof BezierPath.Node) {
@@ -251,6 +272,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public BezierPath() {
     }
 
@@ -260,6 +282,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * This is a convenience method for adding a node with a single control
      * point C0 to the path.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void add(Point2D.Double c0) {
         add(new Node(0, c0, c0, c0));
     }
@@ -270,6 +293,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * This is a convenience method for adding a node with a single control
      * point C0 to the path.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void add(double x, double y) {
         add(new Node(0, x, y, x, y, x, y));
     }
@@ -285,6 +309,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @param c1 The coordinates of the C1 control point.
      * @param c2 The coordinates of the C2 control point.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void add(int ctrlMask, Point2D.Double c0, Point2D.Double c1, Point2D.Double c2) {
         add(new Node(ctrlMask, c0, c1, c2));
     }
@@ -295,6 +320,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * Convenience method for adding multiple nodes with a single control point
      * C0.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void addPolyline(Collection<Point2D.Double> points) {
         for (Point2D.Double c0 : points) {
             add(new Node(0, c0, c0, c0));
@@ -308,6 +334,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @param ctrlIndex Either C0_MASK, C1_MASK or C2_MASK.
      * @param p The control point. The coordinates will be cloned.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void set(int nodeIndex, int ctrlIndex, Point2D.Double p) {
         Node c = get(nodeIndex);
         c.x[ctrlIndex] = p.x;
@@ -321,6 +348,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @param ctrlIndex Either C0_MASK, C1_MASK or C2_MASK.
      * @return Returns a clone of the control point.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public Point2D.Double get(int nodeIndex, int ctrlIndex) {
         Node c = get(nodeIndex);
         return new Point2D.Double(
@@ -331,6 +359,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * This must be called after the BezierPath has been changed.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void invalidatePath() {
         generalPath = null;
         bounds = null;
@@ -340,6 +369,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * Recomputes the BezierPath, if it is invalid.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void validatePath() {
         if (generalPath == null) {
             generalPath = toGeneralPath();
@@ -349,6 +379,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * Converts the BezierPath into a Path2D.Double.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public Path2D.Double toGeneralPath() {
         Path2D.Double gp = new Path2D.Double();
         gp.setWindingRule(windingRule);
@@ -421,6 +452,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return gp;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean contains(Point2D p) {
         validatePath();
@@ -435,38 +467,45 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @param p The point to be tested.
      * @param tolerance The tolerance for the test.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public boolean outlineContains(Point2D.Double p, double tolerance) {
         return Shapes.outlineContains(this, p, tolerance);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean intersects(Rectangle2D r) {
         validatePath();
         return generalPath.intersects(r);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public PathIterator getPathIterator(AffineTransform at) {
         return new BezierPathIterator(this, at);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public PathIterator getPathIterator(AffineTransform at, double flatness) {
         return new FlatteningPathIterator(new BezierPathIterator(this, at), flatness);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean contains(Rectangle2D r) {
         validatePath();
         return generalPath.contains(r);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean intersects(double x, double y, double w, double h) {
         validatePath();
         return generalPath.intersects(x, y, w, h);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public Rectangle2D.Double getBounds2D() {
         if (bounds == null) {
@@ -616,23 +655,27 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         return (Rectangle2D.Double) bounds.clone();
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public Rectangle getBounds() {
         return getBounds2D().getBounds();
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean contains(double x, double y, double w, double h) {
         validatePath();
         return generalPath.contains(x, y, w, h);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean contains(double x, double y) {
         validatePath();
         return generalPath.contains(x, y);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     public void setClosed(boolean newValue) {
         if (isClosed != newValue) {
             isClosed = newValue;
@@ -640,6 +683,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     public boolean isClosed() {
         return isClosed;
     }
@@ -647,6 +691,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * Creates a deep copy of the BezierPath.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public BezierPath clone() {
         BezierPath that = (BezierPath) super.clone();
@@ -661,6 +706,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @param tx the transformation.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void transform(AffineTransform tx) {
         Point2D.Double p = new Point2D.Double();
         for (Node cp : this) {
@@ -679,6 +725,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * Sets all values of this bezier path to that bezier path, so that this
      * path becomes identical to that path.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void setTo(BezierPath that) {
         while (that.size() < size()) {
             remove(size() - 1);
@@ -694,6 +741,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     /**
      * Returns the point at the center of the bezier path.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public Point2D.Double getCenter() {
         double sx = 0;
         double sy = 0;
@@ -710,6 +758,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * from the center of the bezier path to the specified point.
      * If no edge crosses the line, the nearest C0 control point is returned.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public Point2D.Double chop(Point2D.Double p) {
         return Geom.chop(this, p);
     }
@@ -718,6 +767,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * Return the index of the node that is the furthest away from the center
      *
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public int indexOfOutermostNode() {
         if (outer == -1) {
             Point2D.Double ctr = getCenter();
@@ -744,6 +794,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @param relative a value between 0 and 1.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public Point2D.Double getPointOnPath(double relative, double flatness) {
         // This method works only for straight lines
         if (size() == 0) {
@@ -794,6 +845,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @param flatness the flatness used to approximate the length.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public double getLengthOfPath(double flatness) {
         double len = 0;
         PathIterator i = generalPath.getPathIterator(new AffineTransform(), flatness);
@@ -818,6 +870,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @return relative position on path, this is a number between 0 and 1.
      * Returns -1, if the point is not on the path.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public double getRelativePositionOnPath(Point2D.Double find, double flatness) {
         // XXX - This method works only for straight lines!
         double len = getLengthOfPath(flatness);
@@ -876,6 +929,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @return the index of the segment or -1 if no segment was hit.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public int findSegment(Point2D.Double find, double tolerance) {
         // XXX - This works only for straight lines!
         Node v1, v2;
@@ -924,6 +978,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @return the index of the joined segment or -1 if no segment was joined.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public int joinSegments(Point2D.Double join, double tolerance) {
         for (int i = 0; i < size(); i++) {
             Node p = get(i);
@@ -940,6 +995,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @return the index of the segment or -1 if no segment was hit.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public int splitSegment(Point2D.Double split, double tolerance) {
         int i = findSegment(split, tolerance);
         int nextI = (i + 1) % size();
@@ -970,6 +1026,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * This is a convenience method for adding the first node with a single
      * control point C0 to the bezier path.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void moveTo(double x1, double y1) {
         if (size() != 0) {
             throw new IllegalPathStateException("moveTo only allowed when empty");
@@ -990,6 +1047,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * <p>
      * The bezier path must already have at least one node.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void lineTo(double x1, double y1) {
         if (size() == 0) {
             throw new IllegalPathStateException("lineTo only allowed when not empty");
@@ -1009,6 +1067,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * <p>
      * The bezier path must already have at least one node.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void quadTo(double x1, double y1,
             double x2, double y2) {
         if (size() == 0) {
@@ -1026,6 +1085,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * <p>
      * The bezier path must already have at least one node.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void curveTo(double x1, double y1,
             double x2, double y2,
             double x3, double y3) {
@@ -1074,6 +1134,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * @param x the absolute x coordinate of the final point of the arc.
      * @param y the absolute y coordinate of the final point of the arc.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void arcTo(double rx, double ry,
             double xAxisRotation,
             boolean largeArcFlag, boolean sweepFlag,
@@ -1197,6 +1258,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * <p>
      * @return Point array.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public Point2D.Double[] toPolygonArray() {
         Point2D.Double[] points = new Point2D.Double[size()];
         for (int i = 0, n = size(); i < n; i++) {
@@ -1210,6 +1272,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @param newValue Must be Path2D.Double.WIND_EVEN_ODD or Path2D.Double.WIND_NON_ZERO.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void setWindingRule(int newValue) {
         if (newValue != windingRule) {
             invalidatePath();
@@ -1223,6 +1286,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      *
      * @return Path2D.Double.WIND_EVEN_ODD or Path2D.Double.WIND_NON_ZERO.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public int getWindingRule() {
         return windingRule;
     }

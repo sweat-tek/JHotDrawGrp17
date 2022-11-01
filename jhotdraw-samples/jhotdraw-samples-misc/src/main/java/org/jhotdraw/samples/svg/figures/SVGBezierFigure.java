@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.BasicStroke;
 import java.awt.event.*;
@@ -41,15 +42,18 @@ public class SVGBezierFigure extends BezierFigure {
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public SVGBezierFigure() {
         this(false);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     public SVGBezierFigure(boolean isClosed) {
         super(isClosed);
         set(UNCLOSED_PATH_FILLED, true);
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     public Collection<Handle> createHandles(SVGPathFigure pathFigure, int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
         switch (detailLevel % 2) {
@@ -67,6 +71,7 @@ public class SVGBezierFigure extends BezierFigure {
         return handles;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2/* && view.getHandleDetailLevel() == 0*/) {
@@ -85,12 +90,13 @@ public class SVGBezierFigure extends BezierFigure {
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
                     private static final long serialVersionUID = 1L;
 
+                    @FeatureEntryPoint(value = "PolygonTool")
                     @Override
                     public String getPresentationName() {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.bezierPath.splitSegment.text");
                     }
-
+                    @FeatureEntryPoint(value = "PolygonTool")
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -98,7 +104,7 @@ public class SVGBezierFigure extends BezierFigure {
                         addNode(index, newNode);
                         changed();
                     }
-
+                    @FeatureEntryPoint(value = "PolygonTool")
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
@@ -115,6 +121,7 @@ public class SVGBezierFigure extends BezierFigure {
         return false;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -131,6 +138,7 @@ public class SVGBezierFigure extends BezierFigure {
         }
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -159,6 +167,7 @@ public class SVGBezierFigure extends BezierFigure {
      *
      * @return the index of the segment or -1 if no segment was hit.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public int findSegment(Point2D.Double find, double tolerance) {
         // Apply inverse of transform to point
@@ -182,6 +191,7 @@ public class SVGBezierFigure extends BezierFigure {
      * @param tolerance a tolerance, tolerance should take into account
      * the line width, plus 2 divided by the zoom factor.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public boolean joinSegments(Point2D.Double join, double tolerance) {
         // Apply inverse of transform to point
@@ -209,6 +219,7 @@ public class SVGBezierFigure extends BezierFigure {
      * @param tolerance a tolerance, tolerance should take into account
      * the line width, plus 2 divided by the zoom factor.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public int splitSegment(Point2D.Double split, double tolerance) {
         // Apply inverse of transform to point
@@ -230,6 +241,7 @@ public class SVGBezierFigure extends BezierFigure {
      * Transforms all coords of the figure by the current TRANSFORM attribute
      * and then sets the TRANSFORM attribute to null.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     public void flattenTransform() {
         if (get(TRANSFORM) != null) {
             path.transform(get(TRANSFORM));
@@ -238,6 +250,7 @@ public class SVGBezierFigure extends BezierFigure {
         invalidate();
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     @Override
     public void invalidate() {
         super.invalidate();
