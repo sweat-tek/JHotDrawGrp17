@@ -40,5 +40,11 @@
 	  <artifactId>jhotdraw-actions</artifactId>
 	  <version>${project.version}</version>
 	 </dependency>
-	</dependencies>
+        <dependency>
+            <groupId>dk.sdu.mmmi</groupId>
+            <artifactId>featuretracerlite</artifactId>
+            <version>1.0</version>
+            <scope>compile</scope>
+        </dependency>
+    </dependencies>
 </project>

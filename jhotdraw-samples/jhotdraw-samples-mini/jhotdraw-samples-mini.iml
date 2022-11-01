@@ -14,9 +14,9 @@
     <orderEntry type="module" module-name="jhotdraw-xml" />
     <orderEntry type="module" module-name="jhotdraw-datatransfer" />
     <orderEntry type="module" module-name="jhotdraw-actions" />
+    <orderEntry type="library" name="Maven: dk.sdu.mmmi:featuretracerlite:1.0" level="project" />
     <orderEntry type="module" module-name="jhotdraw-samples-misc" />
     <orderEntry type="library" name="Maven: org.devzendo:Quaqua:7.3.4" level="project" />
-    <orderEntry type="library" name="Maven: dk.sdu.mmmi:featuretracerlite:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.aspectj:aspectjweaver:1.9.9" level="project" />
     <orderEntry type="library" name="Maven: net.sourceforge.htmlunit:htmlunit:2.37.0" level="project" />
     <orderEntry type="library" name="Maven: xalan:xalan:2.7.2" level="project" />
