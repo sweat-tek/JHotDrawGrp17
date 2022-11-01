@@ -400,6 +400,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             return labels.getString("edit.flattenTransform.text");
                         }
 
+                        @FeatureEntryPoint(value="undo")
                         @Override
                         public void undo() throws CannotUndoException {
                             super.undo();
@@ -408,6 +409,7 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
                             changed();
                         }
 
+                        @FeatureEntryPoint(value="redo")
                         @Override
                         public void redo() throws CannotRedoException {
                             super.redo();

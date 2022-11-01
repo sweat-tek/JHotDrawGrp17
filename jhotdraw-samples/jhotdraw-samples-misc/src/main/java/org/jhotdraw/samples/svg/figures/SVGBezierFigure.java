@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.BezierFigure;
 import java.awt.BasicStroke;
 import java.awt.event.*;
@@ -91,6 +92,7 @@ public class SVGBezierFigure extends BezierFigure {
                         return labels.getString("edit.bezierPath.splitSegment.text");
                     }
 
+                    @FeatureEntryPoint(value="redo")
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();
@@ -98,7 +100,7 @@ public class SVGBezierFigure extends BezierFigure {
                         addNode(index, newNode);
                         changed();
                     }
-
+                    @FeatureEntryPoint(value="undo")
                     @Override
                     public void undo() throws CannotUndoException {
                         super.undo();
