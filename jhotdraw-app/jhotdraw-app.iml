@@ -13,10 +13,10 @@
     <orderEntry type="module" module-name="jhotdraw-api" />
     <orderEntry type="module" module-name="jhotdraw-actions" />
     <orderEntry type="module" module-name="jhotdraw-utils" />
+    <orderEntry type="library" name="Maven: dk.sdu.mmmi:featuretracerlite:1.0" level="project" />
     <orderEntry type="module" module-name="jhotdraw-datatransfer" />
     <orderEntry type="module" module-name="jhotdraw-gui" />
     <orderEntry type="module" module-name="jhotdraw-core" />
     <orderEntry type="module" module-name="jhotdraw-xml" />
-    <orderEntry type="library" name="Maven: dk.sdu.mmmi:featuretracerlite:1.0" level="project" />
   </component>
 </module>
