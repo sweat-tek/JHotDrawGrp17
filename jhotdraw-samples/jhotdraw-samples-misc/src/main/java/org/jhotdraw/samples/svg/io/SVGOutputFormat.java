@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.BezierFigure;
 import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
@@ -133,6 +134,7 @@ public class SVGOutputFormat implements OutputFormat {
         return isPrettyPrint;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     protected void writeElement(Element parent, Figure f) throws IOException {
         // Write link attribute as encosing "a" element
         if (f.get(LINK) != null && f.get(LINK).trim().length() > 0) {
@@ -354,6 +356,7 @@ public class SVGOutputFormat implements OutputFormat {
         return elem;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     protected void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
@@ -368,6 +371,7 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getAttributes()));
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     protected Element createPolygon(Element doc,
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes)
@@ -380,6 +384,7 @@ public class SVGOutputFormat implements OutputFormat {
         return elem;
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     protected void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
         LinkedList<Point2D.Double> points = new LinkedList<Point2D.Double>();
         for (int i = 0, n = f.getChildCount(); i < n; i++) {
@@ -394,6 +399,7 @@ public class SVGOutputFormat implements OutputFormat {
                 f.getAttributes()));
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     protected Element createPolyline(Element doc,
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes) throws IOException {

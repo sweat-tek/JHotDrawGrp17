@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.datatransfer.*;
@@ -594,6 +595,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Creates a Polyline figure.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private ODGFigure createPolylineFigure(
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> a)
@@ -612,6 +614,7 @@ public class ODGInputFormat implements InputFormat {
     /**
      * Creates a Polygon figure.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private ODGFigure createPolygonFigure(
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> a)
@@ -799,6 +802,7 @@ public class ODGInputFormat implements InputFormat {
      * • Text – see section 9.2.17.
      *
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private ODGFigure readPolygonElement(Element elem)
             throws IOException {
         AffineTransform viewBoxTransform = readViewBoxTransform(elem);
@@ -837,6 +841,7 @@ public class ODGInputFormat implements InputFormat {
      * • Glue points – see section 9.2.19.
      * • Text – see section 9.2.17.
      */
+    @FeatureEntryPoint(value = "PolygonTool")
     private ODGFigure readPolylineElement(Element elem)
             throws IOException {
         AffineTransform viewBoxTransform = readViewBoxTransform(elem);
@@ -862,6 +867,7 @@ public class ODGInputFormat implements InputFormat {
         throw new UnsupportedOperationException("ODGInputFormat.readRectElement(" + elem + "):null - not implemented");
     }
 
+    @FeatureEntryPoint(value = "PolygonTool")
     private ODGFigure readRegularPolygonElement(Element elem)
             throws IOException {
         throw new UnsupportedOperationException("ODGInputFormat.readRegularPolygonElement(" + elem + "):null - not implemented");

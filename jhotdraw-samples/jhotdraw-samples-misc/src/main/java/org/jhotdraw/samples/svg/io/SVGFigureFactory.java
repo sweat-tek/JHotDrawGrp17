@@ -50,14 +50,17 @@ public interface SVGFigureFactory {
             double x1, double y1, double x2, double y2,
             Map<AttributeKey<?>, Object> attributes);
 
+            @FeatureEntryPoint(value = "PolygonTool")
     public Figure createPolyline(
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes);
 
+            @FeatureEntryPoint(value = "PolygonTool")
     public Figure createPolygon(
             Point2D.Double[] points,
             Map<AttributeKey<?>, Object> attributes);
 
+            @FeatureEntryPoint(value = "PolygonTool")
     public Figure createPath(
             BezierPath[] beziers,
             Map<AttributeKey<?>, Object> attributes);

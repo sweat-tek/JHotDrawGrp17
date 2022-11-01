@@ -42,6 +42,7 @@ import org.jhotdraw.util.*;
  * @author Werner Randelshofer
  * @version $Id$
  */
+
 public class SVGPathFigure extends AbstractAttributedCompositeFigure implements SVGFigure {
 
     private static final long serialVersionUID = 1L;
