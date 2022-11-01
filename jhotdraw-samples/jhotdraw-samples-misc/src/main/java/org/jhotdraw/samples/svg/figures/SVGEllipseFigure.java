@@ -10,6 +10,8 @@ package org.jhotdraw.samples.svg.figures;
 import java.awt.*;
 import java.awt.geom.*;
 import java.util.*;
+
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
 import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
@@ -45,10 +47,12 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value = "EllipseTool")
     public SVGEllipseFigure() {
         this(0, 0, 0, 0);
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     public SVGEllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
         SVGAttributeKeys.setDefaults(this);
@@ -56,6 +60,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // DRAWING
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     protected void drawFill(Graphics2D g) {
         if (ellipse.width > 0 && ellipse.height > 0) {
@@ -63,6 +68,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         }
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     protected void drawStroke(Graphics2D g) {
         if (ellipse.width > 0 && ellipse.height > 0) {
@@ -87,11 +93,13 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return ellipse.getHeight();
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
@@ -111,6 +119,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
@@ -127,6 +136,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return cachedTransformedShape;
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             if (get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
@@ -140,6 +150,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return cachedHitShape;
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
@@ -154,6 +165,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      *
      * @param tx the transformation.
      */
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -187,6 +199,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         invalidate();
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
@@ -197,6 +210,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         invalidate();
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
@@ -208,6 +222,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     // ATTRIBUTES
     // EDITING
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -231,6 +246,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public SVGEllipseFigure clone() {
         SVGEllipseFigure that = (SVGEllipseFigure) super.clone();
@@ -240,12 +256,14 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // EVENT HANDLING
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;
     }
 
+    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public void invalidate() {
         super.invalidate();

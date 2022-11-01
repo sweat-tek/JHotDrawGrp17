@@ -91,17 +91,17 @@ public class CreationTool extends AbstractTool {
     /**
      * Creates a new instance.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public CreationTool(String prototypeClassName) {
         this(prototypeClassName, null, null);
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes) {
         this(prototypeClassName, attributes, null);
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public CreationTool(String prototypeClassName, Map<AttributeKey<?>, Object> attributes, String name) {
         try {
             this.prototype = (Figure) Class.forName(prototypeClassName).newInstance();
@@ -126,7 +126,7 @@ public class CreationTool extends AbstractTool {
      *
      * @param prototype The prototype used to create a new Figure.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public CreationTool(Figure prototype) {
         this(prototype, null, null);
     }
@@ -141,7 +141,7 @@ public class CreationTool extends AbstractTool {
      * @param attributes The CreationTool applies these attributes to the prototype after having
      * applied the default attributes from the DrawingEditor.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes) {
         this(prototype, attributes, null);
     }
@@ -155,7 +155,7 @@ public class CreationTool extends AbstractTool {
      * @param name The name parameter is currently not used.
      * @deprecated This constructor might go away, because the name parameter is not used.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Deprecated
     public CreationTool(Figure prototype, Map<AttributeKey<?>, Object> attributes, String name) {
         this.prototype = prototype;
@@ -171,7 +171,7 @@ public class CreationTool extends AbstractTool {
         return prototype;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Override
     public void activate(DrawingEditor editor) {
         super.activate(editor);
@@ -180,7 +180,7 @@ public class CreationTool extends AbstractTool {
         }
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Override
     public void deactivate(DrawingEditor editor) {
         super.deactivate(editor);
@@ -195,7 +195,7 @@ public class CreationTool extends AbstractTool {
         }
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Override
     public void mousePressed(MouseEvent evt) {
         super.mousePressed(evt);
@@ -211,7 +211,7 @@ public class CreationTool extends AbstractTool {
         getDrawing().add(createdFigure);
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Override
     public void mouseDragged(MouseEvent evt) {
         if (createdFigure != null) {
@@ -224,7 +224,7 @@ public class CreationTool extends AbstractTool {
         }
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Override
     public void mouseReleased(MouseEvent evt) {
         if (createdFigure != null) {
@@ -284,7 +284,7 @@ public class CreationTool extends AbstractTool {
         }
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @SuppressWarnings("unchecked")
     protected Figure createFigure() {
         Figure f = prototype.clone();
@@ -297,12 +297,12 @@ public class CreationTool extends AbstractTool {
         return f;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     protected Figure getCreatedFigure() {
         return createdFigure;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     protected Figure getAddedFigure() {
         return createdFigure;
     }
@@ -311,7 +311,7 @@ public class CreationTool extends AbstractTool {
      * This method allows subclasses to do perform additonal user interactions after the new figure
      * has been created. The implementation of this class just invokes fireToolDone.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     protected void creationFinished(Figure createdFigure) {
         if (createdFigure.isSelectable()) {
             getView().addToSelection(createdFigure);
@@ -325,7 +325,7 @@ public class CreationTool extends AbstractTool {
      * If this is set to false, the CreationTool does not fire toolDone after a new Figure has been
      * created. This allows to create multiple figures consecutively.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public void setToolDoneAfterCreation(boolean newValue) {
         boolean oldValue = isToolDoneAfterCreation;
         isToolDoneAfterCreation = newValue;
@@ -334,12 +334,12 @@ public class CreationTool extends AbstractTool {
     /**
      * Returns true, if this tool fires toolDone immediately after a new figure has been created.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     public boolean isToolDoneAfterCreation() {
         return isToolDoneAfterCreation;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+     
     @Override
     public void updateCursor(DrawingView view, Point p) {
         if (view.isEnabled()) {
