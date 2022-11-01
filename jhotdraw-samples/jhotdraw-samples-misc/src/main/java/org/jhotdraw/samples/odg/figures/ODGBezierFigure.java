@@ -75,7 +75,7 @@ public class ODGBezierFigure extends BezierFigure {
                 final BezierPath.Node newNode = getNode(index);
                 fireUndoableEditHappened(new AbstractUndoableEdit() {
                     private static final long serialVersionUID = 1L;
-
+                    @FeatureEntryPoint(value="redo")
                     @Override
                     public void redo() throws CannotRedoException {
                         super.redo();

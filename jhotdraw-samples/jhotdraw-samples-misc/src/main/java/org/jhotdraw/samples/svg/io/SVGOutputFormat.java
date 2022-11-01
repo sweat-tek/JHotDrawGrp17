@@ -206,6 +206,7 @@ public class SVGOutputFormat implements OutputFormat {
                         f.getAttributes()));
     }
 
+
     protected Element createCircle(Element doc,
             double cx, double cy, double r,
             Map<AttributeKey<?>, Object> attributes) throws IOException {

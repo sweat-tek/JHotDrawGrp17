@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.ImageHolderFigure;
 import java.awt.*;
 import java.awt.event.*;
@@ -63,10 +64,12 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public SVGImageFigure() {
         this(0, 0, 0, 0);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public SVGImageFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
         SVGAttributeKeys.setDefaults(this);
@@ -74,6 +77,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
 
     // DRAWING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void draw(Graphics2D g) {
         //super.draw(g);
@@ -110,36 +114,44 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     protected void drawFill(Graphics2D g) {
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     protected void drawStroke(Graphics2D g) {
     }
 
     // SHAPE AND BOUNDS
+    @FeatureEntryPoint(value="ImageTool")
     public double getX() {
         return rectangle.x;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public double getY() {
         return rectangle.y;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public double getWidth() {
         return rectangle.width;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public double getHeight() {
         return rectangle.height;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) rectangle.clone();
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D rx = getTransformedShape().getBounds2D();
@@ -150,11 +162,13 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         invalidateTransformedShape();
@@ -164,11 +178,13 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         rectangle.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private void invalidateTransformedShape() {
         cachedTransformedShape = null;
         cachedHitShape = null;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
             cachedTransformedShape = (Shape) rectangle.clone();
@@ -179,6 +195,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return cachedTransformedShape;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private Shape getHitShape() {
         if (cachedHitShape == null) {
             cachedHitShape = new GrowStroke(
@@ -193,6 +210,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      *
      * @param tx The transformation.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
@@ -215,6 +233,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
 
     // ATTRIBUTES
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void restoreTransformTo(Object geometry) {
         invalidateTransformedShape();
@@ -227,6 +246,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Object getTransformRestoreData() {
         return new Object[]{
@@ -236,6 +256,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     }
 
     // EDITING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -256,6 +277,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return handles;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
@@ -333,6 +355,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
     // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public SVGImageFigure clone() {
         SVGImageFigure that = (SVGImageFigure) super.clone();
@@ -342,12 +365,14 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return that;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0 || imageData == null && bufferedImage == null;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void invalidate() {
         super.invalidate();
@@ -367,6 +392,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * @param bufferedImage An image constructed from the imageData. If this
      * is null, imageData must be provided.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void setImage(byte[] imageData, BufferedImage bufferedImage) {
         willChange();
@@ -383,6 +409,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * imageData array instead of cloning it. Do not modify the imageData
      * array after invoking this method.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void setImageData(byte[] imageData) {
         willChange();
         this.imageData = imageData;
@@ -394,6 +421,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * Sets the buffered image.
      * This clears the image data.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void setBufferedImage(BufferedImage image) {
         willChange();
@@ -406,6 +434,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * Gets the buffered image. If necessary, this method creates the buffered
      * image from the image data.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
@@ -431,6 +460,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
      * the internally used image data array instead of cloning it. Do not
      * modify this array.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
@@ -450,6 +480,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         return imageData;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void loadImage(File file) throws IOException {
         InputStream in = new FileInputStream(file);
@@ -465,6 +496,7 @@ public class SVGImageFigure extends SVGAttributedFigure implements SVGFigure, Im
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void loadImage(InputStream in) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

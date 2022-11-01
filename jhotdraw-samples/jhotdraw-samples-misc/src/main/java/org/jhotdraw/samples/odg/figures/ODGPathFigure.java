@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.odg.figures;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.ConnectionFigure;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
@@ -368,6 +369,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                             return labels.getString("flattenTransform");
                         }
 
+                        @FeatureEntryPoint(value="undo")
                         @Override
                         public void undo() throws CannotUndoException {
                             super.undo();
@@ -376,6 +378,7 @@ public class ODGPathFigure extends AbstractAttributedCompositeFigure implements 
                             changed();
                         }
 
+                        @FeatureEntryPoint(value="redo")
                         @Override
                         public void redo() throws CannotRedoException {
                             super.redo();

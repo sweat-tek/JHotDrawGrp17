@@ -96,7 +96,6 @@ public class SVGBezierFigure extends BezierFigure {
                         ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.draw.Labels");
                         return labels.getString("edit.bezierPath.splitSegment.text");
                     }
-
                     @FeatureEntryPoint(value = "PolygonTool")
                     @Override
                     public void redo() throws CannotRedoException {
@@ -105,7 +104,6 @@ public class SVGBezierFigure extends BezierFigure {
                         addNode(index, newNode);
                         changed();
                     }
-
                     @FeatureEntryPoint(value = "PolygonTool")
                     @Override
                     public void undo() throws CannotUndoException {

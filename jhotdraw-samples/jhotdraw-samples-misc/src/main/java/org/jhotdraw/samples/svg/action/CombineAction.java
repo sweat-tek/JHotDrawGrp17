@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.action;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.CompositeFigure;
 import java.awt.geom.AffineTransform;
@@ -124,6 +125,7 @@ public class CombineAction extends AbstractSelectedAction {
                     return labels.getTextProperty("edit.combinePaths");
                 }
 
+                @FeatureEntryPoint(value="redo")
                 @Override
                 public void redo() throws CannotRedoException {
                     super.redo();
