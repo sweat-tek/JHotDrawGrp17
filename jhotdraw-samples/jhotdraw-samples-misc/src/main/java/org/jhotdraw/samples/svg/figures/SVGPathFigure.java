@@ -8,6 +8,7 @@
 package org.jhotdraw.samples.svg.figures;
 
 import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
+import org.jhotdraw.draw.figure.AbstractCompositeFigure;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.AbstractAttributedCompositeFigure;
 import java.awt.*;
@@ -36,7 +37,8 @@ import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
-import org.jhotdraw.samples.svg.action.ClosePathAction;
+import org.jhotdraw.samples.svg.action.OpenClosePathAction;
+import org.jhotdraw.samples.svg.action.WindingRuleAction;
 import org.jhotdraw.util.*;
 
 /**
@@ -60,120 +62,91 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     private transient Shape cachedHitShape;
     private static final boolean DEBUG = false;
     final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
-    final List<Figure> children = getChildren();
-    Drawing drawing = getDrawing();
-    AbstractAction removeTransformAction = new AbstractAction(labels.getString("edit.removeTransform.text")) {
-        private static final long serialVersionUID = 1L;
+    private List<Figure> children;
+    private Drawing drawing;
+    private AbstractCompositeFigure figure;
 
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            willChange();
-            fireUndoableEditHappened(
-                    TRANSFORM.setUndoable(SVGPathFigure.this, null));
-            changed();
-        }
-    };
+    AbstractAction getRemoveTransformAction() {
+        AbstractAction removeTransformAction = new AbstractAction(labels.getString("edit.removeTransform.text")) {
+            private static final long serialVersionUID = 1L;
 
-    AbstractAction flattenTransformAction = new AbstractAction(labels.getString("edit.flattenTransform.text")) {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
-            //TransformEdit edit = new TransformEdit(SVGPathFigure.this, )
-            final Object restoreData = getTransformRestoreData();
-            System.out.println("flatten transform action fired");
-            UndoableEdit edit = new AbstractUndoableEdit() {
-                private static final long serialVersionUID = 1L;
-
-                @Override
-                public String getPresentationName() {
-                    return labels.getString("edit.flattenTransform.text");
-                }
-
-                @FeatureEntryPoint(value="undo")
-                @Override
-                public void undo() throws CannotUndoException {
-                    super.undo();
-                    willChange();
-                    System.out.println("undo action fired");
-                    restoreTransformTo(restoreData);
-                    changed();
-                }
-
-                @FeatureEntryPoint(value="redo")
-                @Override
-                public void redo() throws CannotRedoException {
-                    super.redo();
-                    willChange();
-                    System.out.println("redo action fired");
-                    restoreTransformTo(restoreData);
-                    flattenTransform();
-                    changed();
-                }
-            };
-            willChange();
-            flattenTransform();
-            changed();
-            fireUndoableEditHappened(edit);
-        }
-    };
-
-    AbstractAction openPathAction = new AbstractAction(labels.getString("attribute.openPath.text")) {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            willChange();
-            System.out.println("open path action fired");
-            for (Figure child : getChildren()) {
-                getDrawing().fireUndoableEditHappened(
-                        PATH_CLOSED.setUndoable(child, false));
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                willChange();
+                fireUndoableEditHappened(
+                        TRANSFORM.setUndoable(SVGPathFigure.this, null));
+                changed();
             }
-            changed();
-        }
-    };
+        };
+        return removeTransformAction;
+    }
 
-    AbstractAction closePathAction = new AbstractAction(labels.getString("attribute.closePath.text")) {
-        private static final long serialVersionUID = 1L;
+    AbstractAction getFlattenTransformAction() {
+        AbstractAction flattenTransformAction = new AbstractAction(labels.getString("edit.flattenTransform.text")) {
+            private static final long serialVersionUID = 1L;
 
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            willChange();
-            System.out.println("close path action fired");
-            for (Figure child : children) {
-                System.out.println("close path children");
-                drawing.fireUndoableEditHappened(
-                        PATH_CLOSED.setUndoable(child, true));
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                // CompositeEdit edit = new CompositeEdit(labels.getString("flattenTransform"));
+                //TransformEdit edit = new TransformEdit(SVGPathFigure.this, )
+                final Object restoreData = getTransformRestoreData();
+                System.out.println("flatten transform action fired");
+                UndoableEdit edit = new AbstractUndoableEdit() {
+                    private static final long serialVersionUID = 1L;
+
+                    @Override
+                    public String getPresentationName() {
+                        return labels.getString("edit.flattenTransform.text");
+                    }
+
+                    @FeatureEntryPoint(value="undo")
+                    @Override
+                    public void undo() throws CannotUndoException {
+                        super.undo();
+                        willChange();
+                        System.out.println("undo action fired");
+                        restoreTransformTo(restoreData);
+                        changed();
+                    }
+
+                    @FeatureEntryPoint(value="redo")
+                    @Override
+                    public void redo() throws CannotRedoException {
+                        super.redo();
+                        willChange();
+                        System.out.println("redo action fired");
+                        restoreTransformTo(restoreData);
+                        flattenTransform();
+                        changed();
+                    }
+                };
+                willChange();
+                flattenTransform();
+                changed();
+                fireUndoableEditHappened(edit);
             }
-            changed();
-        }
-    };
+        };
+        return flattenTransformAction;
+    }
 
-    AbstractAction windingRuleNonZeroAction = new AbstractAction(labels.getString("attribute.windingRule.nonZero.text")) {
-        private static final long serialVersionUID = 1L;
+    void setUpActionVariables() {
+        drawing = getDrawing();
+        children = getChildren();
+        figure = this;
+    }
+    AbstractAction getClosePathAction() {
+        return new OpenClosePathAction(children, figure, drawing, true);
+    }
+    AbstractAction getOpenPathAction() {
+        return new OpenClosePathAction(children, figure, drawing, false);
+    }
 
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            willChange();
-            set(WINDING_RULE, WindingRule.NON_ZERO);
-            changed();
-            getDrawing().fireUndoableEditHappened(
-                    WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.NON_ZERO));
-        }
-    };
-
-    AbstractAction windingRuleEvenOddAction = new AbstractAction(labels.getString("attribute.windingRule.evenOdd.text")) {
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void actionPerformed(ActionEvent evt) {
-            willChange();
-            getDrawing().fireUndoableEditHappened(
-                    WINDING_RULE.setUndoable(SVGPathFigure.this, WindingRule.EVEN_ODD));
-            changed();
-        }
-    };
+    AbstractAction getWindingRuleNonZeroAction() {
+        return new WindingRuleAction(children, figure, drawing, WindingRule.NON_ZERO);
+    }
+    AbstractAction getWindingRuleEvenOddAction() {
+        return new WindingRuleAction(children, figure, drawing, WindingRule.EVEN_ODD);
+    }
 
     /**
      * Creates a new instance.
@@ -490,19 +463,21 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
+        setUpActionVariables();
         if (get(TRANSFORM) != null) {
-            actions.add(removeTransformAction);
-            actions.add(flattenTransformAction);
+            actions.add(getRemoveTransformAction());
+            actions.add(getFlattenTransformAction());
         }
         if (getChild(getChildCount() - 1).get(PATH_CLOSED)) {
-            actions.add(openPathAction);
+            actions.add(getOpenPathAction());
         } else {
-            actions.add(closePathAction);
+            System.out.println("path is closed fire in getActions");
+            actions.add(getClosePathAction());
         }
         if (get(WINDING_RULE) != WindingRule.EVEN_ODD) {
-            actions.add(windingRuleEvenOddAction);
+            actions.add(getWindingRuleEvenOddAction());
         } else {
-            actions.add(windingRuleNonZeroAction);
+            actions.add(getWindingRuleNonZeroAction());
         }
         return actions;
     }
