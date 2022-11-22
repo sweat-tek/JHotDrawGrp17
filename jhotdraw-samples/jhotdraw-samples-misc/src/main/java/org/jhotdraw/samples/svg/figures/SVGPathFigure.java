@@ -66,6 +66,22 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     private Drawing drawing;
     private AbstractCompositeFigure figure;
 
+    /**
+     * Creates a new instance.
+     */
+    public SVGPathFigure() {
+        add(new SVGBezierFigure());
+        SVGAttributeKeys.setDefaults(this);
+    }
+
+    public SVGPathFigure(boolean isEmpty) {
+        if (!isEmpty) {
+            add(new SVGBezierFigure());
+        }
+        SVGAttributeKeys.setDefaults(this);
+        setConnectable(false);
+    }
+
     AbstractAction getRemoveTransformAction() {
         AbstractAction removeTransformAction = new AbstractAction(labels.getString("edit.removeTransform.text")) {
             private static final long serialVersionUID = 1L;
@@ -146,22 +162,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
     AbstractAction getWindingRuleEvenOddAction() {
         return new WindingRuleAction(children, figure, drawing, WindingRule.EVEN_ODD);
-    }
-
-    /**
-     * Creates a new instance.
-     */
-    public SVGPathFigure() {
-        add(new SVGBezierFigure());
-        SVGAttributeKeys.setDefaults(this);
-    }
-
-    public SVGPathFigure(boolean isEmpty) {
-        if (!isEmpty) {
-            add(new SVGBezierFigure());
-        }
-        SVGAttributeKeys.setDefaults(this);
-        setConnectable(false);
     }
 
     @FeatureEntryPoint(value="LineTool")
