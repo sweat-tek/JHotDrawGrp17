@@ -15,6 +15,7 @@ import java.awt.event.*;
 import java.awt.geom.*;
 import java.awt.image.BufferedImage;
 import java.util.*;
+import java.util.List;
 import javax.swing.*;
 import javax.swing.undo.*;
 import org.jhotdraw.draw.*;
@@ -34,6 +35,8 @@ import org.jhotdraw.geom.Shapes;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+
+import org.jhotdraw.samples.svg.action.ClosePathAction;
 import org.jhotdraw.util.*;
 
 /**
@@ -57,6 +60,8 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     private transient Shape cachedHitShape;
     private static final boolean DEBUG = false;
     final ResourceBundleUtil labels = ResourceBundleUtil.getBundle("org.jhotdraw.samples.svg.Labels");
+    final List<Figure> children = getChildren();
+    Drawing drawing = getDrawing();
     AbstractAction removeTransformAction = new AbstractAction(labels.getString("edit.removeTransform.text")) {
         private static final long serialVersionUID = 1L;
 
@@ -136,8 +141,9 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         public void actionPerformed(ActionEvent evt) {
             willChange();
             System.out.println("close path action fired");
-            for (Figure child : getChildren()) {
-                getDrawing().fireUndoableEditHappened(
+            for (Figure child : children) {
+                System.out.println("close path children");
+                drawing.fireUndoableEditHappened(
                         PATH_CLOSED.setUndoable(child, true));
             }
             changed();
