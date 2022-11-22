@@ -42,7 +42,6 @@ public class LineFigure extends BezierFigure {
     // SHAPE AND BOUNDS
     // ATTRIBUTES
     // EDITING
-    @FeatureEntryPoint(value="createHandles")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<>();
@@ -67,7 +66,6 @@ public class LineFigure extends BezierFigure {
     /**
      * Handles a mouse click.
      */
-    @FeatureEntryPoint(value="handleMouseClick")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() == 0) {
