@@ -119,6 +119,10 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return get(FILL_GRADIENT) != null;
     }
 
+    private boolean hasFillColorAttribute() {
+        return get(FILL_COLOR) != null;
+    }
+
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
@@ -148,7 +152,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0);
         Stroke stroke;
 
-        if (get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
+        if (hasFillColorAttribute() || hasFillGradiantAttribute()) {
             stroke = new GrowStroke(strokeWidth, miterLimit);
         } else {
             stroke = SVGAttributeKeys.getHitStroke(this, 1.0);
@@ -161,8 +165,10 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y, lead.y);
-        ellipse.width = Math.max(MIN_WIDTH, Math.abs(lead.x - anchor.x));
-        ellipse.height = Math.max(MIN_HEIGHT, Math.abs(lead.y - anchor.y));
+        double width = Math.abs(lead.x - anchor.x);
+        double height = Math.abs(lead.y - anchor.y);
+        ellipse.width = Math.max(MIN_WIDTH, width);
+        ellipse.height = Math.max(MIN_HEIGHT, height);
         invalidate();
     }
 
