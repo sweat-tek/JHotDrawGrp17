@@ -220,29 +220,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
             STROKE_GRADIENT.getClone(this)};
     }
 
-    // ATTRIBUTES
-    // EDITING
-    @FeatureEntryPoint(value = "EllipseTool")
-    @Override
-    public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
-        switch (detailLevel % 2) {
-            case -1: // Mouse hover handles
-                handles.add(new BoundsOutlineHandle(this, false, true));
-                break;
-            case 0:
-                ResizeHandleKit.addResizeHandles(this, handles);
-                handles.add(new LinkHandle(this));
-                break;
-            case 1:
-                TransformHandleKit.addTransformHandles(this, handles);
-                break;
-            default:
-                break;
-        }
-        return handles;
-    }
-
     // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
