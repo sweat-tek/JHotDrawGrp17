@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
+import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
@@ -73,22 +74,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         }
     }
 
-    // SHAPE AND BOUNDS
-    public double getX() {
-        return ellipse.x;
-    }
-
-    public double getY() {
-        return ellipse.y;
-    }
-
-    public double getWidth() {
-        return ellipse.getWidth();
-    }
-
-    public double getHeight() {
-        return ellipse.getHeight();
-    }
 
     @Override
     public Rectangle2D.Double getBounds() {
@@ -98,8 +83,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     @Override
     public Rectangle2D.Double getDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) getTransformedShape().getBounds2D();
-
-        if (hasTransformAttribute()) {
+        if (hasAttribute(TRANSFORM)) {
             double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
             double width = strokeTotalWidth / 2d;
             width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
@@ -109,18 +93,6 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
             Geom.grow(r, g, g);
         }
         return r;
-    }
-
-    private boolean hasTransformAttribute() {
-        return get(TRANSFORM) != null;
-    }
-
-    private boolean hasFillGradiantAttribute() {
-        return get(FILL_GRADIENT) != null;
-    }
-
-    private boolean hasFillColorAttribute() {
-        return get(FILL_COLOR) != null;
     }
 
     /**
@@ -133,7 +105,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
-            if (hasTransformAttribute()) {
+            if (hasAttribute(TRANSFORM)) {
                 cachedTransformedShape = get(TRANSFORM).createTransformedShape(ellipse);
             } else {
                 cachedTransformedShape = ellipse;
@@ -146,13 +118,11 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         if (cachedHitShape != null) {
             return cachedHitShape;
         }
-
         Shape strokeShape = getTransformedShape();
-        float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f;
-        float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0);
         Stroke stroke;
-
-        if (hasFillColorAttribute() || hasFillGradiantAttribute()) {
+        if (hasAttribute(FILL_COLOR) || hasAttribute(FILL_GRADIENT)) {
+            float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f;
+            float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0);
             stroke = new GrowStroke(strokeWidth, miterLimit);
         } else {
             stroke = SVGAttributeKeys.getHitStroke(this, 1.0);
@@ -165,10 +135,8 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y, lead.y);
-        double width = Math.abs(lead.x - anchor.x);
-        double height = Math.abs(lead.y - anchor.y);
-        ellipse.width = Math.max(MIN_WIDTH, width);
-        ellipse.height = Math.max(MIN_HEIGHT, height);
+        ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
+        ellipse.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
         invalidate();
     }
 
@@ -179,8 +147,8 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      */
     @Override
     public void transform(AffineTransform tx) {
-        if (hasTransformAttribute() || (tx.getType() != AffineTransform.TYPE_TRANSLATION)) {
-            if (hasTransformAttribute()) {
+        if (hasAttribute(TRANSFORM) || (tx.getType() != AffineTransform.TYPE_TRANSLATION)) {
+            if (hasAttribute(TRANSFORM)) {
                 performTransformation(tx);
             } else {
                 TRANSFORM.setClone(this, tx);
@@ -243,5 +211,25 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         super.invalidate();
         cachedTransformedShape = null;
         cachedHitShape = null;
+    }
+
+
+
+
+
+    // SHAPE AND BOUNDS
+    public double getX() {
+        return ellipse.x;
+    }
+
+    public double getY() {
+        return ellipse.y;
+    }
+    public double getWidth() {
+        return ellipse.getWidth();
+    }
+
+    public double getHeight() {
+        return ellipse.getHeight();
     }
 }
