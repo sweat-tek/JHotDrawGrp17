@@ -94,14 +94,14 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return rectangle;
     }
 
-    public void growDrawingAreaByWidth(Rectangle2D.Double rectangle){
+    private void growDrawingAreaByWidth(Rectangle2D.Double rectangle){
         double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, SCALE_FACTOR);
         double width = strokeTotalWidth / 2d;
         width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
         Geom.grow(rectangle, width, width);
     }
 
-    public void growDrawingAreaPerpendicular(Rectangle2D.Double rectangle){
+    private void growDrawingAreaPerpendicular(Rectangle2D.Double rectangle){
         double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, SCALE_FACTOR) * 2d + 1;
         Geom.grow(rectangle, g, g);
     }
@@ -140,13 +140,13 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return cachedHitShape;
     }
 
-    public Stroke createStrokeFromWidthAndMiter(SVGEllipseFigure ellipseFigure){
+    private Stroke createStrokeFromWidthAndMiter(SVGEllipseFigure ellipseFigure){
         float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(ellipseFigure, SCALE_FACTOR) / 2f;
         float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(ellipseFigure, SCALE_FACTOR);
         return new GrowStroke(strokeWidth, miterLimit);
     }
 
-    public Stroke createHitStroke(SVGEllipseFigure ellipseFigure){
+    private Stroke createHitStroke(SVGEllipseFigure ellipseFigure){
         return SVGAttributeKeys.getHitStroke(ellipseFigure, SCALE_FACTOR);
     }
 
@@ -173,18 +173,18 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
                 TRANSFORM.setClone(this, tx);
             }
         } else {
-            performTranslation(tx);
+            setTransformBounds(tx);
         }
         invalidate();
     }
 
-    public void performTransformation(AffineTransform tx) {
+    private void performTransformation(AffineTransform tx) {
         AffineTransform t = TRANSFORM.getClone(this);
         t.preConcatenate(tx);
         set(TRANSFORM, t);
     }
 
-    public void performTranslation(AffineTransform tx) {
+    private void setTransformBounds(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
         Point2D.Double lead = getEndPoint();
         Point2D.Double transformedAnchor = (Point2D.Double) tx.transform(anchor, anchor);
