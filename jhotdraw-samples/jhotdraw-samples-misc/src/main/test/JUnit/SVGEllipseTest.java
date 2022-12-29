@@ -1,3 +1,5 @@
+package JUnit;
+
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
 
 import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;

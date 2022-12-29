@@ -1,3 +1,4 @@
+package JUnit;
 
 import org.jhotdraw.samples.svg.Main;
 import org.junit.Test;
