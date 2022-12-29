@@ -37,6 +37,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     private static final long serialVersionUID = 1L;
     private static final double MIN_WIDTH = 0.1;
     private static final double MIN_HEIGHT = 0.1;
+    private static final double SCALE_FACTOR = 1.0;
     private Ellipse2D.Double ellipse;
     /**
      * This is used to perform faster drawing and hit testing.
@@ -83,17 +84,25 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     @Override
     public Rectangle2D.Double getDrawingArea() {
-        Rectangle2D.Double r = (Rectangle2D.Double) getTransformedShape().getBounds2D();
+        Rectangle2D.Double rectangle = (Rectangle2D.Double) getTransformedShape().getBounds2D();
         if (hasAttribute(TRANSFORM)) {
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
-            double width = strokeTotalWidth / 2d;
-            width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
-            Geom.grow(r, width, width);
+            growDrawingAreaByWidth(rectangle);
         } else {
-            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d + 1;
-            Geom.grow(r, g, g);
+            growDrawingAreaPerpendicular(rectangle);
         }
-        return r;
+        return rectangle;
+    }
+
+    public void growDrawingAreaByWidth(Rectangle2D.Double rectangle){
+        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, SCALE_FACTOR);
+        double width = strokeTotalWidth / 2d;
+        width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
+        Geom.grow(rectangle, width, width);
+    }
+    
+    public void growDrawingAreaPerpendicular(Rectangle2D.Double rectangle){
+        double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, SCALE_FACTOR) * 2d + 1;
+        Geom.grow(rectangle, g, g);
     }
 
     /**
@@ -131,8 +140,8 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     public Stroke createStrokeFromWidthAndMiter(SVGEllipseFigure ellipseFigure){
-        float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(ellipseFigure, 1.0) / 2f;
-        float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(ellipseFigure, 1.0);
+        float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(ellipseFigure, SCALE_FACTOR) / 2f;
+        float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(ellipseFigure, SCALE_FACTOR);
         return new GrowStroke(strokeWidth, miterLimit);
     }
 
@@ -140,13 +149,12 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         return SVGAttributeKeys.getHitStroke(ellipseFigure, 1.0);
     }
 
-
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y, lead.y);
-        ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
-        ellipse.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+        ellipse.width = Math.max(MIN_WIDTH, Math.abs(lead.x - anchor.x));
+        ellipse.height = Math.max(MIN_HEIGHT, Math.abs(lead.y - anchor.y));
         invalidate();
     }
 
