@@ -64,18 +64,19 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     // DRAWING
     @Override
     protected void drawFill(Graphics2D g) {
-        if (ellipse.width > 0 && ellipse.height > 0) {
-            g.fill(ellipse);
+        if (isEllipseEmpty()) {
+            return;
         }
+            g.fill(ellipse);
     }
 
     @Override
     protected void drawStroke(Graphics2D g) {
-        if (ellipse.width > 0 && ellipse.height > 0) {
-            g.draw(ellipse);
+        if (isEllipseEmpty()) {
+            return;
         }
+            g.draw(ellipse);
     }
-
 
     @Override
     public Rectangle2D.Double getBounds() {
@@ -99,7 +100,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
         Geom.grow(rectangle, width, width);
     }
-    
+
     public void growDrawingAreaPerpendicular(Rectangle2D.Double rectangle){
         double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, SCALE_FACTOR) * 2d + 1;
         Geom.grow(rectangle, g, g);
@@ -146,7 +147,7 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     public Stroke createHitStroke(SVGEllipseFigure ellipseFigure){
-        return SVGAttributeKeys.getHitStroke(ellipseFigure, 1.0);
+        return SVGAttributeKeys.getHitStroke(ellipseFigure, SCALE_FACTOR);
     }
 
     @Override
@@ -236,6 +237,11 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
 
     // SHAPE AND BOUNDS
+
+    public Ellipse2D.Double getEllipse() {
+        return ellipse;
+    }
+
     public double getX() {
         return ellipse.x;
     }
@@ -249,5 +255,9 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     public double getHeight() {
         return ellipse.getHeight();
+    }
+
+    private boolean isEllipseEmpty(){
+        return (getEllipse().getWidth() < 0 && getEllipse().getWidth() < 0);
     }
 }
