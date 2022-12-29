@@ -1,4 +1,4 @@
-package JGiven;
+package JGiven.Stages;
 
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ScenarioState;

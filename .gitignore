@@ -8,3 +8,6 @@ nb-configuration.xml
 *.*~
 jhotdraw-samples/jhotdraw-samples-misc/pom.xml
 .idea/
+*.iml
+*.ipr
+*.iws

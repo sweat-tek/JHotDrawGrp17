@@ -7,9 +7,7 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
-import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
-import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
