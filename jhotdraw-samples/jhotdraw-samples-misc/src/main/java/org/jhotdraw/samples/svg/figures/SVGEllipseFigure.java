@@ -9,6 +9,7 @@ package org.jhotdraw.samples.svg.figures;
 
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
+import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
@@ -121,15 +122,24 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         Shape strokeShape = getTransformedShape();
         Stroke stroke;
         if (hasAttribute(FILL_COLOR) || hasAttribute(FILL_GRADIENT)) {
-            float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f;
-            float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0);
-            stroke = new GrowStroke(strokeWidth, miterLimit);
+            stroke = createStrokeFromWidthAndMiter(this);
         } else {
-            stroke = SVGAttributeKeys.getHitStroke(this, 1.0);
+            stroke = createHitStroke(this);
         }
         cachedHitShape = stroke.createStrokedShape(strokeShape);
         return cachedHitShape;
     }
+
+    public Stroke createStrokeFromWidthAndMiter(SVGEllipseFigure ellipseFigure){
+        float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(ellipseFigure, 1.0) / 2f;
+        float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(ellipseFigure, 1.0);
+        return new GrowStroke(strokeWidth, miterLimit);
+    }
+
+    public Stroke createHitStroke(SVGEllipseFigure ellipseFigure){
+        return SVGAttributeKeys.getHitStroke(ellipseFigure, 1.0);
+    }
+
 
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
