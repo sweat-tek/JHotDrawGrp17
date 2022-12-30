@@ -23,4 +23,10 @@ public class Then extends Stage<Then> {
         return this;
     }
 
+    public Then drawingContainsEllipse(){
+        assertNotEquals(0, drawing.getFiguresFrontToBack().size());
+        assertTrue(drawing.getFiguresFrontToBack().get(0) instanceof SVGEllipseFigure);
+        return this;
+    }
+
 }

@@ -14,4 +14,12 @@ public class SVGEllipseBDDTest extends ScenarioTest<Given, When, Then> {
         when().translationIsPerformed();
         then().ellipseHasBeenTranslated();
     }
+
+    @Test
+    public void drawEllipse(){
+        given().anEmptyDrawing();
+        when().anEllipseIsDrawn();
+        then().drawingContainsEllipse();
+    }
+
 }

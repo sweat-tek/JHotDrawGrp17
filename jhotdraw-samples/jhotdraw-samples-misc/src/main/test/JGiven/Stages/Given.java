@@ -11,6 +11,12 @@ public class Given extends Stage<Given> {
     @ProvidedScenarioState
     Drawing drawing;
 
+    public Given anEmptyDrawing(){
+        drawing = new QuadTreeDrawing();
+        return this;
+    }
+
+
     public Given aDrawing(){
         drawing = new QuadTreeDrawing();
         return this;

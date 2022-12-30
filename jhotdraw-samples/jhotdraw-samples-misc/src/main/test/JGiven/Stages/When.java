@@ -31,4 +31,9 @@ public class When extends Stage<When> {
         return this;
     }
 
+    public When anEllipseIsDrawn() {
+        drawing.add(new SVGEllipseFigure(1, 1, 5, 5));
+        return this;
+    }
+
 }
