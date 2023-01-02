@@ -17,6 +17,11 @@ import javax.swing.*;
 import org.jhotdraw.draw.*;
 import static org.jhotdraw.draw.AttributeKeys.STROKE_WIDTH;
 import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+
+import org.jhotdraw.draw.handle.BoundsOutlineHandle;
+import org.jhotdraw.draw.handle.Handle;
+import org.jhotdraw.draw.handle.ResizeHandleKit;
+import org.jhotdraw.draw.handle.TransformHandleKit;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 import org.jhotdraw.util.*;
@@ -124,5 +129,25 @@ public abstract class SVGAttributedFigure extends AbstractAttributedFigure {
             });
         }
         return actions;
+    }
+
+    @Override
+    public Collection<Handle> createHandles(int detailLevel) {
+        LinkedList<Handle> handles = new LinkedList<Handle>();
+        switch (detailLevel % 2) {
+            case -1: // Mouse hover handles
+                handles.add(new BoundsOutlineHandle(this, false, true));
+                break;
+            case 0:
+                ResizeHandleKit.addResizeHandles(this, handles);
+                handles.add(new LinkHandle(this));
+                break;
+            case 1:
+                TransformHandleKit.addTransformHandles(this, handles);
+                break;
+            default:
+                break;
+        }
+        return handles;
     }
 }

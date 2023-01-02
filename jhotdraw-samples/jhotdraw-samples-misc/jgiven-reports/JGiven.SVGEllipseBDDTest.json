@@ -1,0 +1,161 @@
+{
+  "className": "JGiven.SVGEllipseBDDTest",
+  "name": "SVG Ellipse BDD",
+  "scenarios": [
+    {
+      "className": "JGiven.SVGEllipseBDDTest",
+      "testMethodName": "drawEllipse",
+      "description": "Draw ellipse",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 639129112,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "an ellipse is drawn",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an ellipse is drawn"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 340623451,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "drawing contains ellipse",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "drawing contains ellipse"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 4976969,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 1015505986
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 1015505986
+    },
+    {
+      "className": "JGiven.SVGEllipseBDDTest",
+      "testMethodName": "performTranslation",
+      "description": "Perform translation",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1830264,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "an s v g ellipse",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an s v g ellipse"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 7962549,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "translation is performed",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "translation is performed"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 3687416,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "ellipse has been translated",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "ellipse has been translated"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1865952,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 16857411
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 16857411
+    }
+  ],
+  "tagMap": {}
+}

@@ -7,23 +7,22 @@
  */
 package org.jhotdraw.samples.svg.figures;
 
-import java.awt.*;
-import java.awt.geom.*;
-import java.util.*;
-
-import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
-import org.jhotdraw.draw.*;
-import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
-import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
-import org.jhotdraw.draw.handle.BoundsOutlineHandle;
-import org.jhotdraw.draw.handle.Handle;
-import org.jhotdraw.draw.handle.ResizeHandleKit;
-import org.jhotdraw.draw.handle.TransformHandleKit;
+import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
-import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
+
+import java.awt.*;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
+
+import static org.jhotdraw.draw.AttributeKeys.FILL_COLOR;
+import static org.jhotdraw.draw.AttributeKeys.TRANSFORM;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.FILL_GRADIENT;
+import static org.jhotdraw.samples.svg.SVGAttributeKeys.STROKE_GRADIENT;
 
 /**
  * SVGEllipse represents a SVG ellipse and a SVG circle element.
@@ -34,6 +33,9 @@ import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     private static final long serialVersionUID = 1L;
+    private static final double MIN_WIDTH = 0.1;
+    private static final double MIN_HEIGHT = 0.1;
+    private static final double SCALE_FACTOR = 1.0;
     private Ellipse2D.Double ellipse;
     /**
      * This is used to perform faster drawing and hit testing.
@@ -47,12 +49,10 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     /**
      * Creates a new instance.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
     public SVGEllipseFigure() {
         this(0, 0, 0, 0);
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
     public SVGEllipseFigure(double x, double y, double width, double height) {
         ellipse = new Ellipse2D.Double(x, y, width, height);
         SVGAttributeKeys.setDefaults(this);
@@ -60,66 +60,53 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // DRAWING
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     protected void drawFill(Graphics2D g) {
-        if (ellipse.width > 0 && ellipse.height > 0) {
-            g.fill(ellipse);
+        if (isEllipseEmpty()) {
+            return;
         }
+            g.fill(ellipse);
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     protected void drawStroke(Graphics2D g) {
-        if (ellipse.width > 0 && ellipse.height > 0) {
-            g.draw(ellipse);
+        if (isEllipseEmpty()) {
+            return;
         }
+            g.draw(ellipse);
     }
 
-    // SHAPE AND BOUNDS
-    public double getX() {
-        return ellipse.x;
-    }
-
-    public double getY() {
-        return ellipse.y;
-    }
-
-    public double getWidth() {
-        return ellipse.getWidth();
-    }
-
-    public double getHeight() {
-        return ellipse.getHeight();
-    }
-
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Rectangle2D.Double getBounds() {
         return (Rectangle2D.Double) ellipse.getBounds2D();
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
-        Rectangle2D rx = getTransformedShape().getBounds2D();
-        Rectangle2D.Double r = (rx instanceof Rectangle2D.Double) ? (Rectangle2D.Double) rx : new Rectangle2D.Double(rx.getX(), rx.getY(), rx.getWidth(), rx.getHeight());
-        if (get(TRANSFORM) == null) {
-            double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, 1.0) * 2d + 1;
-            Geom.grow(r, g, g);
+        Rectangle2D.Double rectangle = (Rectangle2D.Double) getTransformedShape().getBounds2D();
+        if (hasAttribute(TRANSFORM)) {
+            growDrawingAreaByWidth(rectangle);
         } else {
-            double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, 1.0);
-            double width = strokeTotalWidth / 2d;
-            width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
-            Geom.grow(r, width, width);
+            growDrawingAreaPerpendicular(rectangle);
         }
-        return r;
+        return rectangle;
+    }
+
+    private void growDrawingAreaByWidth(Rectangle2D.Double rectangle){
+        double strokeTotalWidth = AttributeKeys.getStrokeTotalWidth(this, SCALE_FACTOR);
+        double width = strokeTotalWidth / 2d;
+        width *= Math.max(get(TRANSFORM).getScaleX(), get(TRANSFORM).getScaleY()) + 1;
+        Geom.grow(rectangle, width, width);
+    }
+
+    private void growDrawingAreaPerpendicular(Rectangle2D.Double rectangle){
+        double g = SVGAttributeKeys.getPerpendicularHitGrowth(this, SCALE_FACTOR) * 2d + 1;
+        Geom.grow(rectangle, g, g);
     }
 
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public boolean contains(Point2D.Double p) {
         return getHitShape().contains(p);
@@ -127,36 +114,46 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
 
     private Shape getTransformedShape() {
         if (cachedTransformedShape == null) {
-            if (get(TRANSFORM) == null) {
-                cachedTransformedShape = ellipse;
-            } else {
+            if (hasAttribute(TRANSFORM)) {
                 cachedTransformedShape = get(TRANSFORM).createTransformedShape(ellipse);
+            } else {
+                cachedTransformedShape = ellipse;
             }
         }
         return cachedTransformedShape;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
     private Shape getHitShape() {
-        if (cachedHitShape == null) {
-            if (get(FILL_COLOR) != null || get(FILL_GRADIENT) != null) {
-                cachedHitShape = new GrowStroke(
-                        (float) SVGAttributeKeys.getStrokeTotalWidth(this, 1.0) / 2f,
-                        (float) SVGAttributeKeys.getStrokeTotalMiterLimit(this, 1.0)).createStrokedShape(getTransformedShape());
-            } else {
-                cachedHitShape = SVGAttributeKeys.getHitStroke(this, 1.0).createStrokedShape(getTransformedShape());
-            }
+        if (cachedHitShape != null) {
+            return cachedHitShape;
         }
+        Shape strokeShape = getTransformedShape();
+        Stroke stroke;
+        if (hasAttribute(FILL_COLOR) || hasAttribute(FILL_GRADIENT)) {
+            stroke = createStrokeFromWidthAndMiter(this);
+        } else {
+            stroke = createHitStroke(this);
+        }
+        cachedHitShape = stroke.createStrokedShape(strokeShape);
         return cachedHitShape;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+    private Stroke createStrokeFromWidthAndMiter(SVGEllipseFigure ellipseFigure){
+        float strokeWidth = (float) SVGAttributeKeys.getStrokeTotalWidth(ellipseFigure, SCALE_FACTOR) / 2f;
+        float miterLimit = (float) SVGAttributeKeys.getStrokeTotalMiterLimit(ellipseFigure, SCALE_FACTOR);
+        return new GrowStroke(strokeWidth, miterLimit);
+    }
+
+    private Stroke createHitStroke(SVGEllipseFigure ellipseFigure){
+        return SVGAttributeKeys.getHitStroke(ellipseFigure, SCALE_FACTOR);
+    }
+
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         ellipse.x = Math.min(anchor.x, lead.x);
         ellipse.y = Math.min(anchor.y, lead.y);
-        ellipse.width = Math.max(0.1, Math.abs(lead.x - anchor.x));
-        ellipse.height = Math.max(0.1, Math.abs(lead.y - anchor.y));
+        ellipse.width = Math.max(MIN_WIDTH, Math.abs(lead.x - anchor.x));
+        ellipse.height = Math.max(MIN_HEIGHT, Math.abs(lead.y - anchor.y));
         invalidate();
     }
 
@@ -165,41 +162,34 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
      *
      * @param tx the transformation.
      */
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public void transform(AffineTransform tx) {
-        if (get(TRANSFORM) != null
-                || (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
-            if (get(TRANSFORM) == null) {
-                TRANSFORM.setClone(this, tx);
+        if (hasAttribute(TRANSFORM) || (tx.getType() != AffineTransform.TYPE_TRANSLATION)) {
+            if (hasAttribute(TRANSFORM)) {
+                performTransformation(tx);
             } else {
-                AffineTransform t = TRANSFORM.getClone(this);
-                t.preConcatenate(tx);
-                set(TRANSFORM, t);
+                TRANSFORM.setClone(this, tx);
             }
         } else {
-            Point2D.Double anchor = getStartPoint();
-            Point2D.Double lead = getEndPoint();
-            setBounds(
-                    (Point2D.Double) tx.transform(anchor, anchor),
-                    (Point2D.Double) tx.transform(lead, lead));
-            if (get(FILL_GRADIENT) != null
-                    && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
-                Gradient g = FILL_GRADIENT.getClone(this);
-                g.transform(tx);
-                set(FILL_GRADIENT, g);
-            }
-            if (get(STROKE_GRADIENT) != null
-                    && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
-                Gradient g = STROKE_GRADIENT.getClone(this);
-                g.transform(tx);
-                set(STROKE_GRADIENT, g);
-            }
+            setTransformBounds(tx);
         }
         invalidate();
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
+    private void performTransformation(AffineTransform tx) {
+        AffineTransform t = TRANSFORM.getClone(this);
+        t.preConcatenate(tx);
+        set(TRANSFORM, t);
+    }
+
+    private void setTransformBounds(AffineTransform tx) {
+        Point2D.Double anchor = getStartPoint();
+        Point2D.Double lead = getEndPoint();
+        Point2D.Double transformedAnchor = (Point2D.Double) tx.transform(anchor, anchor);
+        Point2D.Double transformedLead = (Point2D.Double) tx.transform(lead, lead);
+        setBounds(transformedAnchor, transformedLead);
+    }
+
     @Override
     public void restoreTransformTo(Object geometry) {
         Object[] restoreData = (Object[]) geometry;
@@ -210,43 +200,14 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
         invalidate();
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public Object getTransformRestoreData() {
-        return new Object[]{
-            ellipse.clone(),
-            TRANSFORM.getClone(this),
-            FILL_GRADIENT.getClone(this),
-            STROKE_GRADIENT.getClone(this)};
-    }
-
-    // ATTRIBUTES
-    // EDITING
-    @FeatureEntryPoint(value = "EllipseTool")
-    @Override
-    public Collection<Handle> createHandles(int detailLevel) {
-        LinkedList<Handle> handles = new LinkedList<Handle>();
-        switch (detailLevel % 2) {
-            case -1: // Mouse hover handles
-                handles.add(new BoundsOutlineHandle(this, false, true));
-                break;
-            case 0:
-                ResizeHandleKit.addResizeHandles(this, handles);
-                handles.add(new LinkHandle(this));
-                break;
-            case 1:
-                TransformHandleKit.addTransformHandles(this, handles);
-                break;
-            default:
-                break;
-        }
-        return handles;
+        return new Object[]{ellipse.clone(), TRANSFORM.getClone(this), FILL_GRADIENT.getClone(this), STROKE_GRADIENT.getClone(this)};
     }
 
     // CONNECTING
     // COMPOSITE FIGURES
     // CLONING
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public SVGEllipseFigure clone() {
         SVGEllipseFigure that = (SVGEllipseFigure) super.clone();
@@ -256,18 +217,45 @@ public class SVGEllipseFigure extends SVGAttributedFigure implements SVGFigure {
     }
 
     // EVENT HANDLING
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public boolean isEmpty() {
         Rectangle2D.Double b = getBounds();
         return b.width <= 0 || b.height <= 0;
     }
 
-    @FeatureEntryPoint(value = "EllipseTool")
     @Override
     public void invalidate() {
         super.invalidate();
         cachedTransformedShape = null;
         cachedHitShape = null;
+    }
+
+
+
+
+
+    // SHAPE AND BOUNDS
+
+    public Ellipse2D.Double getEllipse() {
+        return ellipse;
+    }
+
+    public double getX() {
+        return ellipse.x;
+    }
+
+    public double getY() {
+        return ellipse.y;
+    }
+    public double getWidth() {
+        return ellipse.getWidth();
+    }
+
+    public double getHeight() {
+        return ellipse.getHeight();
+    }
+
+    private boolean isEllipseEmpty(){
+        return (getEllipse().getWidth() < 0 && getEllipse().getWidth() < 0);
     }
 }
