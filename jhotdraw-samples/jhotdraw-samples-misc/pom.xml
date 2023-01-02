@@ -16,7 +16,7 @@
 				<version>2.22.2</version>
 				<configuration>
 					<argLine>
-						-javaagent:"C:/Users/Hannehue/.m2/repository/org/aspectj/aspectjweaver/1.9.9/aspectjweaver-1.9.9.jar"
+						-javaagent:"/home/sigurd/.m2/repository/org/aspectj/aspectjweaver/1.9.9/aspectjweaver-1.9.9.jar"
 						--add-opens java.base/java.lang=ALL-UNNAMED
 					</argLine>
 					<useSystemClassLoader>true</useSystemClassLoader>
@@ -80,6 +80,11 @@
             <version>4.5.1</version>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>com.tngtech.jgiven</groupId>
+			<artifactId>jgiven-junit</artifactId>
+			<version>1.2.4</version>
+		</dependency>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>

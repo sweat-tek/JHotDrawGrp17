@@ -1,0 +1,161 @@
+{
+  "className": "JGiven.SVGPathFigureBDDTEst",
+  "name": "SVG Path Figure BDDT Est",
+  "scenarios": [
+    {
+      "className": "JGiven.SVGPathFigureBDDTEst",
+      "testMethodName": "changeActions",
+      "description": "Change actions",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 651777116,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a line",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a line"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 726810944,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a line action is changed",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a line action is changed"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 5916125,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "line action rule has changed",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "line action rule has changed"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 952637,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 1419634480
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 1419634480
+    },
+    {
+      "className": "JGiven.SVGPathFigureBDDTEst",
+      "testMethodName": "drawLine",
+      "description": "Draw line",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 2951567,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a line is drawn",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a line is drawn"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 31463271,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "drawing contains line",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "drawing contains line"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 704979,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 36337991
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 36337991
+    }
+  ],
+  "tagMap": {}
+}

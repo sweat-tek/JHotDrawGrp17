@@ -1,3 +1,4 @@
+package JUnit;
 
 import org.jhotdraw.draw.AttributeKey;
 import org.jhotdraw.draw.AttributeKeys;
