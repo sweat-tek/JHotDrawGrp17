@@ -23,7 +23,6 @@ public class WindingRuleAction extends AbstractAction {
         this.figure = figure;
         this.drawing = drawing;
         this.rule = rule;
-        System.out.println(rule);
         putValue(Action.NAME, rule.toString());
     }
 

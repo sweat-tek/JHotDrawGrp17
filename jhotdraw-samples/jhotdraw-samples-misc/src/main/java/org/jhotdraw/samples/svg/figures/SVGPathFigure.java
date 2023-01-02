@@ -150,25 +150,25 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         children = getChildren();
         figure = this;
     }
-    AbstractAction getClosePathAction() {
+    private AbstractAction getClosePathAction() {
         return new OpenClosePathAction(children, figure, drawing, true);
     }
-    AbstractAction getOpenPathAction() {
+    private AbstractAction getOpenPathAction() {
         return new OpenClosePathAction(children, figure, drawing, false);
     }
 
-    AbstractAction getWindingRuleNonZeroAction() {
+    private AbstractAction getWindingRuleNonZeroAction() {
         return new WindingRuleAction(children, figure, drawing, WindingRule.NON_ZERO);
     }
-    AbstractAction getWindingRuleEvenOddAction() {
+    private AbstractAction getWindingRuleEvenOddAction() {
         return new WindingRuleAction(children, figure, drawing, WindingRule.EVEN_ODD);
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public void draw(Graphics2D g) {
         double opacity = get(OPACITY);
         opacity = Math.min(Math.max(0d, opacity), 1d);
+
         if (opacity != 0d) {
             if (opacity != 1d) {
                 Rectangle2D.Double drawingArea = getDrawingArea();
@@ -203,7 +203,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         g.setComposite(savedComposite);
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawFigure(Graphics2D g) {
         AffineTransform savedTransform = null;
@@ -232,13 +231,11 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         // empty
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawFill(Graphics2D g) {
         g.fill(getPath());
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public void drawStroke(Graphics2D g) {
         g.draw(getPath());
@@ -252,7 +249,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         cachedHitShape = null;
     }
 
-    @FeatureEntryPoint(value="LineTool")
     protected Path2D.Double getPath() {
         if (cachedPath == null) {
             cachedPath = new Path2D.Double();
@@ -276,7 +272,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     }
 
     // int count;
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public Rectangle2D.Double getDrawingArea() {
         if (cachedDrawingArea == null) {
@@ -303,7 +298,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
         return (Rectangle2D.Double) cachedDrawingArea.clone();
     }
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public boolean contains(Point2D.Double p) {
         getPath();
@@ -349,7 +343,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return false;
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         if (getChildCount() == 1 && getChild(0).getNodeCount() <= 2) {
@@ -361,7 +354,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         }
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public void transform(AffineTransform tx) {
         if (get(TRANSFORM) != null
@@ -407,7 +399,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         STROKE_GRADIENT.setClone(this, (Gradient) restoreData[3]);
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public Object getTransformRestoreData() {
         ArrayList<Object> paths = new ArrayList<Object>(getChildCount());
@@ -439,7 +430,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return true;
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public Collection<Handle> createHandles(int detailLevel) {
         LinkedList<Handle> handles = new LinkedList<Handle>();
@@ -463,7 +453,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return handles;
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<Action>();
@@ -475,7 +464,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         if (getChild(getChildCount() - 1).get(PATH_CLOSED)) {
             actions.add(getOpenPathAction());
         } else {
-            System.out.println("path is closed fire in getActions");
             actions.add(getClosePathAction());
         }
         if (get(WINDING_RULE) != WindingRule.EVEN_ODD) {
@@ -491,7 +479,6 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
     /**
      * Handles a mouse click.
      */
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public boolean handleMouseClick(Point2D.Double p, MouseEvent evt, DrawingView view) {
         if (evt.getClickCount() == 2 && view.getHandleDetailLevel() % 2 == 0) {
@@ -518,14 +505,12 @@ public class SVGPathFigure extends AbstractAttributedCompositeFigure implements 
         return (SVGBezierFigure) super.getChild(index);
     }
 
-    @FeatureEntryPoint(value="LineTool")
     @Override
     public SVGPathFigure clone() {
         SVGPathFigure that = (SVGPathFigure) super.clone();
         return that;
     }
 
-    @FeatureEntryPoint(value="LineTool")
     public void flattenTransform() {
         willChange();
         AffineTransform tx = get(TRANSFORM);
