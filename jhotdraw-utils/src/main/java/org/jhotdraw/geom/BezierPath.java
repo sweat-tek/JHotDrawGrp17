@@ -863,67 +863,6 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
 
     /**
-     * Returns the relative position of the specified point on the path.
-     *
-     * @param flatness the flatness used to approximate the length.
-     *
-     * @return relative position on path, this is a number between 0 and 1.
-     * Returns -1, if the point is not on the path.
-     */
-    @FeatureEntryPoint(value = "PolygonTool")
-    public double getRelativePositionOnPath(Point2D.Double find, double flatness) {
-        // XXX - This method works only for straight lines!
-        double len = getLengthOfPath(flatness);
-        double relativeLen = 0d;
-        Node v1, v2;
-        BezierPath tempPath = new BezierPath();
-        Node t1, t2;
-        tempPath.add(t1 = new Node());
-        tempPath.add(t2 = new Node());
-        for (int i = 0, n = size() - 1; i < n; i++) {
-            v1 = get(i);
-            v2 = get(i + 1);
-            if (v1.mask == 0 && v2.mask == 0) {
-                if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                } else {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], v2.x[0], v2.y[0]);
-                }
-            } else {
-                t1.setTo(v1);
-                t2.setTo(v2);
-                tempPath.invalidatePath();
-                if (tempPath.outlineContains(find, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                } else {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], v2.x[0], v2.y[0]);
-                }
-            }
-        }
-        if (isClosed && size() > 1) {
-            v1 = get(size() - 1);
-            v2 = get(0);
-            if (v1.mask == 0 && v2.mask == 0) {
-                if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                }
-            } else {
-                t1.setTo(v1);
-                t2.setTo(v2);
-                tempPath.invalidatePath();
-                if (tempPath.outlineContains(find, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                }
-            }
-        }
-        return -1;
-    }
-
-    /**
      * Gets the segment of the polyline that is hit by
      * the given Point2D.Double.
      *
