@@ -1721,7 +1721,7 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("y coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
                     p.y = tt.nval;
-                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p.x, p.y);
+                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p);
                     nextCommand = 'A';
                     break;
                 
@@ -1757,7 +1757,7 @@ public class SVGInputFormat implements InputFormat {
                         throw new IOException("y coordinate missing for 'A' at position " + tt.getStartPosition() + " in " + str);
                     }
                     p.y += tt.nval;
-                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p.x, p.y);
+                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p);
                     nextCommand = 'a';
                     break;
                 

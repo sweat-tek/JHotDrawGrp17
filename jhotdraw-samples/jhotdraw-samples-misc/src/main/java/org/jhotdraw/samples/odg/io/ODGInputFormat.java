@@ -1827,7 +1827,7 @@ public class ODGInputFormat implements InputFormat {
                     }
                     p.y = tt.nval;
 
-                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p.x, p.y);
+                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p);
 
                     nextCommand = 'A';
                     break;
@@ -1865,7 +1865,7 @@ public class ODGInputFormat implements InputFormat {
                     }
                     p.y += tt.nval;
 
-                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p.x, p.y);
+                    path.arcTo(rx, ry, xAxisRotation, largeArcFlag, sweepFlag, p);
 
                     nextCommand = 'a';
                     break;
