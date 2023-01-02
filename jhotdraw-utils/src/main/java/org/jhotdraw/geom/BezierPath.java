@@ -1056,8 +1056,8 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * The implementation of this method has been derived from
      * Apache Batik class org.apache.batik.ext.awt.geom.ExtendedGeneralPath#computArc
      *
-     * @param rx the x radius of the ellipse
-     * @param ry the y radius of the ellipse
+     * @param _rx the x radius of the ellipse
+     * @param _ry the y radius of the ellipse
      *
      * @param xAxisRotation the angle from the x-axis of the current
      * coordinate system to the x-axis of the ellipse in degrees.
