@@ -75,23 +75,6 @@ public class Then extends Stage<Then> {
         return this;
     }
 
-    public Then drawingContainsRectangle() {
-        assertNotNull(drawing);
-        Figure rectangle = drawing.getChildren().get(0);
-        assertEquals(rectangle.getClass(), SVGRectFigure.class);
-        return this;
-    }
-
-    public Then roundedRectAction() {
-        assertNotNull(roundedRect);
-        assertEquals(roundedRect.getClass(), SVGRectFigure.class);
-        assertNotNull(drawing);
-        Figure rectangle = drawing.getChildren().get(0);
-        assertEquals(rectangle.getClass(), SVGRectFigure.class);
-        assertNotEquals(roundedRect, rectangle);
-        return this;
-    }
-
     public Then thereAreMoreNodes(){
         assertTrue(drawing.getChildren().get(0) instanceof SVGBezierFigure);
         SVGBezierFigure polygon = (SVGBezierFigure) drawing.getChildren().get(0);
