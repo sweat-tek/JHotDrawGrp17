@@ -1,0 +1,92 @@
+{
+  "className": "JGiven.SVGImageFigureBDDTest",
+  "name": "SVG Image Figure BDD",
+  "scenarios": [
+    {
+      "className": "JGiven.SVGImageFigureBDDTest",
+      "testMethodName": "transformImage",
+      "description": "Transform image",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "a drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1013945190,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "an s v g image",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an s v g image"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 295567098,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "transform is performed",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "transform is performed"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 6903906,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "image has been transformed",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "image has been transformed"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1552391,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 1351326204
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 1351326204
+    }
+  ],
+  "tagMap": {}
+}

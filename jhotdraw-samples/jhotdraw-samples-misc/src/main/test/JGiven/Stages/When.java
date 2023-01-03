@@ -8,6 +8,7 @@ import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.geom.BezierPath;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
+import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 
@@ -29,9 +30,10 @@ public class When extends Stage<When> {
     SVGPathFigure line;
     @ScenarioState
     SVGRectFigure roundedRect;
-
     @ScenarioState
     SVGBezierFigure bezierFigure;
+    @ScenarioState
+    SVGImageFigure originalImage;
 
     public When translationIsPerformed(){
         assertNotNull(drawing);
@@ -89,11 +91,28 @@ public class When extends Stage<When> {
         roundedRect.generateRoundRectPath();
         return this;
     }
-    public When anArcIsAdded(){
+    public When anArcIsAdded() {
         SVGBezierFigure polygon = (SVGBezierFigure) drawing.getChildren().get(0);
         BezierPath path = polygon.getBezierPath();
-        path.arcTo(2,3,90,true,true, new Point2D.Double(8,9));
+        path.arcTo(2, 3, 90, true, true, new Point2D.Double(8, 9));
         polygon.setBezierPath(path);
+        return this;
+    }
+
+    public When anImageIsDrawn() {
+        drawing.add(new SVGImageFigure(1, 1, 10, 10));
+        return this;
+    }
+
+    public When transformIsPerformed() {
+        assertNotNull(drawing);
+        List<Figure> figures = drawing.getFiguresFrontToBack();
+        assertTrue(figures.get(0) instanceof SVGImageFigure);
+
+        SVGImageFigure imageFigure = (SVGImageFigure) figures.get(0);
+        originalImage = imageFigure.clone();
+        AffineTransform transform = AffineTransform.getTranslateInstance(20, 20);
+        imageFigure.transform(transform);
         return this;
     }
 

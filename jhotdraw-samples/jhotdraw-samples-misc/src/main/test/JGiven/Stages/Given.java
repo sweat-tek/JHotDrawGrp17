@@ -6,6 +6,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.QuadTreeDrawing;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
+import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 
@@ -52,6 +53,10 @@ public class Given extends Stage<Given> {
 
     public Given aRectangle() {
         drawing.add(new SVGRectFigure(10, 10, 15, 5));
+        return this;
+    }
+    public Given anSVGImage() {
+        drawing.add(new SVGImageFigure(1, 1, 10, 10));
         return this;
     }
 
