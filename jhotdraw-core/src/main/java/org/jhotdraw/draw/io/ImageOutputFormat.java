@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import java.awt.*;
 import java.awt.datatransfer.*;
@@ -51,6 +52,7 @@ public class ImageOutputFormat implements OutputFormat {
     /**
      * Creates a new image output format for Portable Network Graphics PNG.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageOutputFormat() {
         this("PNG", "Portable Network Graphics (PNG)", "png", BufferedImage.TYPE_INT_ARGB);
     }
@@ -64,6 +66,7 @@ public class ImageOutputFormat implements OutputFormat {
      * @param bufferedImageType The BufferedImage type used to produce the image.
      * The value of this parameter must match with the format name.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageOutputFormat(String formatName, String description, String fileExtension,
             int bufferedImageType) {
         this.formatName = formatName;
@@ -72,21 +75,25 @@ public class ImageOutputFormat implements OutputFormat {
         this.imageType = bufferedImageType;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new FileNameExtensionFilter(description, fileExtension);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public String getFileExtension() {
         return fileExtension;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri), drawing);
@@ -97,6 +104,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(File file, Drawing drawing) throws IOException {
         try (BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file))) {
             write(out, drawing);
@@ -108,6 +116,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing, drawing.getChildren(), null, null);
@@ -118,6 +127,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method applies the specified transform to the drawing, and draws
      * it on an image of the specified size.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(OutputStream out, Drawing drawing,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         write(out, drawing, drawing.getChildren(), drawingTransform, imageSize);
@@ -128,6 +138,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         return new ImageTransferable(toImage(drawing, figures, scaleFactor, true));
@@ -138,6 +149,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method ensures that all figures of the drawing are visible on
      * the image.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures) throws IOException {
         write(out, drawing, figures, null, null);
     }
@@ -147,6 +159,7 @@ public class ImageOutputFormat implements OutputFormat {
      * This method applies the specified transform to the drawing, and draws
      * it on an image of the specified size.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(OutputStream out, Drawing drawing, java.util.List<Figure> figures,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         BufferedImage img;
@@ -173,6 +186,7 @@ public class ImageOutputFormat implements OutputFormat {
      * @param clipToFigures If this is true, the image is clipped to the figures.
      * If this is false, the image includes the drawing area,
      */
+    @FeatureEntryPoint(value="ImageTool")
     public BufferedImage toImage(Drawing drawing,
             java.util.List<Figure> figures,
             double scaleFactor, boolean clipToFigures) {
@@ -223,6 +237,7 @@ public class ImageOutputFormat implements OutputFormat {
      * the figures.
      * @param imageSize The width and height of the image.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public BufferedImage toImage(
             Drawing drawing,
             java.util.List<Figure> figures,
@@ -269,6 +284,7 @@ public class ImageOutputFormat implements OutputFormat {
         return buf;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     protected void setRenderingHints(Graphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ALPHA_INTERPOLATION,
                 RenderingHints.VALUE_ALPHA_INTERPOLATION_QUALITY);

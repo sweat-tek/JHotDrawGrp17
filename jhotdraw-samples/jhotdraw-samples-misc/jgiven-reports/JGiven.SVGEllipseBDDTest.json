@@ -25,7 +25,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 639129112,
+              "durationInNanos": 1022349919,
               "depth": 0,
               "parentFailed": false
             },
@@ -41,7 +41,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 340623451,
+              "durationInNanos": 284090935,
               "depth": 0,
               "parentFailed": false
             },
@@ -57,7 +57,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 4976969,
+              "durationInNanos": 4398093,
               "depth": 0,
               "parentFailed": false
             }
@@ -65,11 +65,11 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 1015505986
+          "durationInNanos": 1344966960
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 1015505986
+      "durationInNanos": 1344966960
     },
     {
       "className": "JGiven.SVGEllipseBDDTest",
@@ -94,7 +94,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1830264,
+              "durationInNanos": 2452258,
               "depth": 0,
               "parentFailed": false
             },
@@ -110,7 +110,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 7962549,
+              "durationInNanos": 6736834,
               "depth": 0,
               "parentFailed": false
             },
@@ -126,7 +126,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 3687416,
+              "durationInNanos": 2866320,
               "depth": 0,
               "parentFailed": false
             },
@@ -142,7 +142,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1865952,
+              "durationInNanos": 833916,
               "depth": 0,
               "parentFailed": false
             }
@@ -150,11 +150,11 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 16857411
+          "durationInNanos": 14842709
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 16857411
+      "durationInNanos": 14842709
     }
   ],
   "tagMap": {}

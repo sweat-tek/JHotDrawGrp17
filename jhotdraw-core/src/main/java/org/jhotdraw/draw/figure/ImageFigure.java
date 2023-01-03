@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.figure;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import java.awt.*;
 import java.awt.geom.*;
 import java.awt.image.*;
@@ -50,15 +51,18 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageFigure() {
         this(0, 0, 0, 0);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public ImageFigure(double x, double y, double width, double height) {
         rectangle = new Rectangle2D.Double(x, y, width, height);
     }
 
     // DRAWING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     protected void drawFigure(Graphics2D g) {
         if (get(FILL_COLOR) != null) {
@@ -85,6 +89,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     protected void drawFill(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
@@ -93,6 +98,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         g.fill(r);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     protected void drawImage(Graphics2D g) {
         BufferedImage image = getBufferedImage();
         if (image != null) {
@@ -106,6 +112,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     protected void drawStroke(Graphics2D g) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
@@ -115,12 +122,14 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     // SHAPE AND BOUNDS
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Rectangle2D.Double getBounds() {
         Rectangle2D.Double bounds = (Rectangle2D.Double) rectangle.clone();
         return bounds;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Rectangle2D.Double getFigureDrawingArea() {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
@@ -132,6 +141,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Checks if a Point2D.Double is inside the figure.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public boolean figureContains(Point2D.Double p) {
         Rectangle2D.Double r = (Rectangle2D.Double) rectangle.clone();
@@ -140,6 +150,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         return r.contains(p);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void setBounds(Point2D.Double anchor, Point2D.Double lead) {
         rectangle.x = Math.min(anchor.x, lead.x);
@@ -153,6 +164,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      *
      * @param tx The transformation.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void transform(AffineTransform tx) {
         Point2D.Double anchor = getStartPoint();
@@ -163,17 +175,20 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     // ATTRIBUTES
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void restoreTransformTo(Object geometry) {
         rectangle.setRect((Rectangle2D.Double) geometry);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Object getTransformRestoreData() {
         return (Rectangle2D.Double) rectangle.clone();
     }
 
     // EDITING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Collection<Action> getActions(Point2D.Double p) {
         LinkedList<Action> actions = new LinkedList<>();
@@ -181,12 +196,14 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     }
 
     // CONNECTING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Connector findConnector(Point2D.Double p, ConnectionFigure prototype) {
         // XXX - This doesn't work with a transformed rect
         return new ChopRectangleConnector(this);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Connector findCompatibleConnector(Connector c, boolean isStartConnector) {
         // XXX - This doesn't work with a transformed rect
@@ -195,6 +212,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
 
     // COMPOSITE FIGURES
     // CLONING
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public ImageFigure clone() {
         ImageFigure that = (ImageFigure) super.clone();
@@ -202,6 +220,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         return that;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void read(DOMInput in) throws IOException {
         super.read(in);
@@ -215,6 +234,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void write(DOMOutput out) throws IOException {
         super.write(out);
@@ -232,6 +252,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * @param bufferedImage An image constructed from the imageData. If this is null, imageData must
      * be provided.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void setImage(byte[] imageData, BufferedImage bufferedImage) {
         willChange();
@@ -246,6 +267,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Note: For performance reasons this method stores a reference to the imageData array instead
      * of cloning it. Do not modify the image data array after invoking this method.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void setImageData(byte[] imageData) {
         willChange();
         this.imageData = imageData;
@@ -256,6 +278,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
     /**
      * Sets the buffered image. This clears the image data.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void setBufferedImage(BufferedImage image) {
         willChange();
@@ -268,6 +291,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Gets the buffered image. If necessary, this method creates the buffered image from the image
      * data.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public BufferedImage getBufferedImage() {
         if (bufferedImage == null && imageData != null) {
@@ -291,6 +315,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
      * Note: For performance reasons this method returns a reference to the internally used image
      * data array instead of cloning it. Do not modify this array.
      */
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public byte[] getImageData() {
         if (bufferedImage != null && imageData == null) {
@@ -310,6 +335,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         return imageData;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void loadImage(File file) throws IOException {
         try (InputStream in = new FileInputStream(file)) {
@@ -322,6 +348,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void loadImage(InputStream in) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -339,6 +366,7 @@ public class ImageFigure extends AbstractAttributedDecoratedFigure
         bufferedImage = img;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private void writeObject(ObjectOutputStream out) throws IOException {
         // The call to getImageData() ensures that we have serializable data
         // in the imageData array.

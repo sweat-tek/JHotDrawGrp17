@@ -7,6 +7,7 @@
  */
 package org.jhotdraw.draw.io;
 
+import dk.sdu.mmmi.featuretracer.lib.FeatureEntryPoint;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.draw.figure.ImageHolderFigure;
 import java.awt.*;
@@ -75,6 +76,7 @@ public class ImageInputFormat implements InputFormat {
      * Creates a new image input format for all formats supported by
      * {@code javax.imageio.ImageIO}.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageInputFormat(ImageHolderFigure prototype) {
         this(prototype, "Image", "Image", ImageIO.getReaderFileSuffixes(), ImageIO.getReaderMIMETypes());
     }
@@ -88,6 +90,7 @@ public class ImageInputFormat implements InputFormat {
      * @param mimeType The mime type used for filtering data flavors from
      * Transferable objects.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageInputFormat(ImageHolderFigure prototype, String formatName, String description, String fileExtension,
             String mimeType) {
         this(prototype, formatName, description, new String[]{fileExtension}, new String[]{mimeType});
@@ -102,6 +105,7 @@ public class ImageInputFormat implements InputFormat {
      * @param mimeTypes The mime typse used for filtering data flavors from
      * Transferable objects.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageInputFormat(ImageHolderFigure prototype, String formatName, String description, String fileExtensions[], String[] mimeTypes) {
         this.prototype = prototype;
         this.formatName = formatName;
@@ -110,6 +114,7 @@ public class ImageInputFormat implements InputFormat {
         this.mimeTypes = mimeTypes.clone();
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new FileNameExtensionFilter(description, fileExtensions);
@@ -119,21 +124,25 @@ public class ImageInputFormat implements InputFormat {
         return fileExtensions.clone();
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public JComponent getInputFormatAccessory() {
         return null;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void read(URI uri, Drawing drawing) throws IOException {
         read(new File(uri), drawing);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void read(URI uri, Drawing drawing, boolean replace) throws IOException {
         read(new File(uri), drawing, replace);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public void read(File file, Drawing drawing, boolean replace) throws IOException {
         ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
         figure.loadImage(file);
@@ -150,10 +159,12 @@ public class ImageInputFormat implements InputFormat {
         drawing.basicAdd(figure);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public void read(File file, Drawing drawing) throws IOException {
         read(file, drawing, true);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void read(InputStream in, Drawing drawing, boolean replace) throws IOException {
         ImageHolderFigure figure = createImageHolder(in);
@@ -165,6 +176,7 @@ public class ImageInputFormat implements InputFormat {
         drawing.basicAdd(figure);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public ImageHolderFigure createImageHolder(InputStream in) throws IOException {
         ImageHolderFigure figure = (ImageHolderFigure) prototype.clone();
         figure.loadImage(in);
@@ -176,6 +188,7 @@ public class ImageInputFormat implements InputFormat {
         return figure;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public boolean isDataFlavorSupported(DataFlavor flavor) {
         if (DataFlavor.imageFlavor.match(flavor)) {
@@ -189,6 +202,7 @@ public class ImageInputFormat implements InputFormat {
         return false;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void read(Transferable t, Drawing drawing, boolean replace) throws UnsupportedFlavorException, IOException {
         DataFlavor importFlavor = null;
