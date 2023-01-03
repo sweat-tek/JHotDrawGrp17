@@ -25,7 +25,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1013945190,
+              "durationInNanos": 960296565,
               "depth": 0,
               "parentFailed": false
             },
@@ -41,7 +41,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 295567098,
+              "durationInNanos": 317974078,
               "depth": 0,
               "parentFailed": false
             },
@@ -57,7 +57,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 6903906,
+              "durationInNanos": 6558879,
               "depth": 0,
               "parentFailed": false
             },
@@ -73,7 +73,7 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1552391,
+              "durationInNanos": 1619398,
               "depth": 0,
               "parentFailed": false
             }
@@ -81,11 +81,80 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 1351326204
+          "durationInNanos": 1329168228
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 1351326204
+      "durationInNanos": 1329168228
+    },
+    {
+      "className": "JGiven.SVGImageFigureBDDTest",
+      "testMethodName": "drawImage",
+      "description": "Draw image",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 2573022,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "an image is drawn",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an image is drawn"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 7675166,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "drawing contains image",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "drawing contains image"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 724268,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 11886207
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 11886207
     }
   ],
   "tagMap": {}
