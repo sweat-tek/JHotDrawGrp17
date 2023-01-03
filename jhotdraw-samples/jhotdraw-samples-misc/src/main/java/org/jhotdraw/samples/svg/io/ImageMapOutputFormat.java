@@ -77,29 +77,35 @@ public class ImageMapOutputFormat implements OutputFormat {
     /**
      * Creates a new instance.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public ImageMapOutputFormat() {
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public javax.swing.filechooser.FileFilter getFileFilter() {
         return new FileNameExtensionFilter("HTML Image Map", "html");
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public String getFileExtension() {
         return "html";
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public JComponent getOutputFormatAccessory() {
         return null;
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void write(URI uri, Drawing drawing) throws IOException {
         write(new File(uri), drawing);
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     public void write(File file, Drawing drawing) throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(
                 new FileOutputStream(file));
@@ -110,6 +116,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public void write(OutputStream out, Drawing drawing) throws IOException {
         write(out, drawing.getChildren());
@@ -120,6 +127,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      * This method applies the specified drawingTransform to the drawing, and draws
      * it on an image of the specified getChildCount.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(OutputStream out, Drawing drawing,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         write(out, drawing.getChildren(), drawingTransform, imageSize);
@@ -132,6 +140,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * All other write methods delegate their work to here.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(OutputStream out, java.util.List<Figure> figures,
             AffineTransform drawingTransform, Dimension imageSize) throws IOException {
         this.drawingTransform = (drawingTransform == null) ? new AffineTransform() : drawingTransform;
@@ -178,6 +187,7 @@ public class ImageMapOutputFormat implements OutputFormat {
     /**
      * All other write methods delegate their work to here.
      */
+    @FeatureEntryPoint(value="ImageTool")
     public void write(OutputStream out, java.util.List<Figure> figures) throws IOException {
         Rectangle2D.Double drawingRect = null;
         for (Figure f : figures) {
@@ -197,6 +207,7 @@ public class ImageMapOutputFormat implements OutputFormat {
                         (int) (Math.abs(drawingRect.y) + drawingRect.height)));
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     @Override
     public Transferable createTransferable(Drawing drawing, java.util.List<Figure> figures, double scaleFactor) throws IOException {
         ByteArrayOutputStream buf = new ByteArrayOutputStream();
@@ -256,6 +267,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the circle is inside of the image bounds.
      */
+    @FeatureEntryPoint(value="ImageTool")
     private boolean writeCircleAttributes(Element elem, SVGFigure f, Ellipse2D.Double ellipse) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
@@ -293,6 +305,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the rect is inside of the image bounds.
      */
+    @FeatureEntryPoint(value="ImageTool")
     private boolean writeRectAttributes(Element elem, SVGFigure f, Rectangle2D.Double rect) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
@@ -325,6 +338,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private void writeHrefAttribute(Element elem, SVGFigure f) {
         String link = f.get(LINK);
         if (link != null && link.trim().length() > 0) {
@@ -346,7 +360,7 @@ public class ImageMapOutputFormat implements OutputFormat {
      *
      * @return Returns true, if the polygon is inside of the image bounds.
      */
-    @FeatureEntryPoint(value = "PolygonTool")
+    @FeatureEntryPoint(value="ImageTool")
     private boolean writePolyAttributes(Element elem, SVGFigure f, Shape shape) {
         AffineTransform t = TRANSFORM.getClone(f);
         if (t == null) {
@@ -394,7 +408,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         return path.intersects(new Rectangle2D.Float(bounds.x, bounds.y, bounds.width, bounds.height));
     }
 
-    @FeatureEntryPoint(value = "PolygonTool")
+    @FeatureEntryPoint(value="ImageTool")
     private void writePathElement(Element parent, SVGPathFigure f) throws IOException {
         GrowStroke growStroke = new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0));
         BasicStroke basicStroke = new BasicStroke((float) getStrokeTotalWidth(f, 1.0));
@@ -410,7 +424,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
-    @FeatureEntryPoint(value = "PolygonTool")
+    @FeatureEntryPoint(value="ImageTool")
     private void writePolygonElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
@@ -418,7 +432,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
-    @FeatureEntryPoint(value = "PolygonTool")
+    @FeatureEntryPoint(value="ImageTool")
     private void writePolylineElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new BasicStroke((float) getStrokeTotalWidth(f, 1.0)).createStrokedShape(f.getChild(0).getBezierPath()))) {
@@ -426,7 +440,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
-    @FeatureEntryPoint(value = "PolygonTool")
+    @FeatureEntryPoint(value="ImageTool")
     private void writeLineElement(Element parent, SVGPathFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("area");
         if (writePolyAttributes(elem, f, new GrowStroke((getStrokeTotalWidth(f, 1.0) / 2d), getStrokeTotalWidth(f, 1.0)).createStrokedShape(new Line2D.Double(
@@ -435,6 +449,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private void writeRectElement(Element parent, SVGRectFigure f) throws IOException {
         Element elem = parent.getOwnerDocument().createElement("AREA");
         boolean isContained;
@@ -500,6 +515,7 @@ public class ImageMapOutputFormat implements OutputFormat {
         }
     }
 
+    @FeatureEntryPoint(value="ImageTool")
     private void writeImageElement(Element parent, SVGImageFigure f) {
         Element elem = parent.getOwnerDocument().createElement("area");
         Rectangle2D.Double rect = f.getBounds();

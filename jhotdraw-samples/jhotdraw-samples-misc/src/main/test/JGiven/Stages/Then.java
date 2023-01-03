@@ -7,6 +7,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
+import org.jhotdraw.samples.svg.figures.SVGImageFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 
@@ -21,6 +22,8 @@ public class Then extends Stage<Then> {
     SVGEllipseFigure originalEllipse;
     @ScenarioState
     SVGRectFigure roundedRect;
+    @ScenarioState
+    SVGImageFigure originalImage;
 
     public Then ellipseHasBeenTranslated() {
         assertNotNull(drawing);
@@ -75,10 +78,26 @@ public class Then extends Stage<Then> {
         return this;
     }
 
-    public Then thereAreMoreNodes(){
+    public Then thereAreMoreNodes() {
         assertTrue(drawing.getChildren().get(0) instanceof SVGBezierFigure);
         SVGBezierFigure polygon = (SVGBezierFigure) drawing.getChildren().get(0);
-        assertNotEquals(2,polygon.getNodeCount());
+        assertNotEquals(2, polygon.getNodeCount());
+        return this;
+    }
+
+    public Then drawingContainsImage() {
+        assertNotEquals(0, drawing.getFiguresFrontToBack().size());
+        assertTrue(drawing.getFiguresFrontToBack().get(0) instanceof SVGImageFigure);
+        return this;
+    }
+
+    public Then imageHasBeenTransformed() {
+        assertNotNull(drawing);
+        assertNotNull(originalImage);
+        assertTrue(drawing.getFiguresFrontToBack().get(0) instanceof SVGImageFigure);
+        SVGImageFigure transformedImage = (SVGImageFigure) drawing.getFiguresFrontToBack().get(0);
+        assertNotEquals(originalImage.getX(), transformedImage.getX());
+        assertNotEquals(originalImage.getY(), transformedImage.getY());
         return this;
     }
 

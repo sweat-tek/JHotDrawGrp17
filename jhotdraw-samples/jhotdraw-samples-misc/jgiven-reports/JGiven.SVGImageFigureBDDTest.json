@@ -1,11 +1,11 @@
 {
-  "className": "JGiven.SVGPathFigureBDDTEst",
-  "name": "SVG Path Figure BDDT Est",
+  "className": "JGiven.SVGImageFigureBDDTest",
+  "name": "SVG Image Figure BDD",
   "scenarios": [
     {
-      "className": "JGiven.SVGPathFigureBDDTEst",
-      "testMethodName": "changeActions",
-      "description": "Change actions",
+      "className": "JGiven.SVGImageFigureBDDTest",
+      "testMethodName": "transformImage",
+      "description": "Transform image",
       "tagIds": [],
       "explicitParameters": [],
       "derivedParameters": [],
@@ -14,66 +14,66 @@
           "caseNr": 1,
           "steps": [
             {
-              "name": "an empty drawing",
+              "name": "a drawing",
               "words": [
                 {
                   "value": "Given",
                   "isIntroWord": true
                 },
                 {
-                  "value": "an empty drawing"
+                  "value": "a drawing"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1164923777,
+              "durationInNanos": 960296565,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "a line",
+              "name": "an s v g image",
               "words": [
                 {
                   "value": "and",
                   "isIntroWord": true
                 },
                 {
-                  "value": "a line"
+                  "value": "an s v g image"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 834666658,
+              "durationInNanos": 317974078,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "a line action is changed",
+              "name": "transform is performed",
               "words": [
                 {
                   "value": "When",
                   "isIntroWord": true
                 },
                 {
-                  "value": "a line action is changed"
+                  "value": "transform is performed"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 6257113,
+              "durationInNanos": 6558879,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "line action rule has changed",
+              "name": "image has been transformed",
               "words": [
                 {
                   "value": "Then",
                   "isIntroWord": true
                 },
                 {
-                  "value": "line action rule has changed"
+                  "value": "image has been transformed"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1053519,
+              "durationInNanos": 1619398,
               "depth": 0,
               "parentFailed": false
             }
@@ -81,16 +81,16 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 2047728151
+          "durationInNanos": 1329168228
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 2047728151
+      "durationInNanos": 1329168228
     },
     {
-      "className": "JGiven.SVGPathFigureBDDTEst",
-      "testMethodName": "drawLine",
-      "description": "Draw line",
+      "className": "JGiven.SVGImageFigureBDDTest",
+      "testMethodName": "drawImage",
+      "description": "Draw image",
       "tagIds": [],
       "explicitParameters": [],
       "derivedParameters": [],
@@ -110,39 +110,39 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 3037678,
+              "durationInNanos": 2573022,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "a line is drawn",
+              "name": "an image is drawn",
               "words": [
                 {
                   "value": "When",
                   "isIntroWord": true
                 },
                 {
-                  "value": "a line is drawn"
+                  "value": "an image is drawn"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 86919708,
+              "durationInNanos": 7675166,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "drawing contains line",
+              "name": "drawing contains image",
               "words": [
                 {
                   "value": "Then",
                   "isIntroWord": true
                 },
                 {
-                  "value": "drawing contains line"
+                  "value": "drawing contains image"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 557117,
+              "durationInNanos": 724268,
               "depth": 0,
               "parentFailed": false
             }
@@ -150,11 +150,11 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 91909987
+          "durationInNanos": 11886207
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 91909987
+      "durationInNanos": 11886207
     }
   ],
   "tagMap": {}
