@@ -863,67 +863,6 @@ public class BezierPath extends ArrayList<BezierPath.Node>
     }
 
     /**
-     * Returns the relative position of the specified point on the path.
-     *
-     * @param flatness the flatness used to approximate the length.
-     *
-     * @return relative position on path, this is a number between 0 and 1.
-     * Returns -1, if the point is not on the path.
-     */
-    @FeatureEntryPoint(value = "PolygonTool")
-    public double getRelativePositionOnPath(Point2D.Double find, double flatness) {
-        // XXX - This method works only for straight lines!
-        double len = getLengthOfPath(flatness);
-        double relativeLen = 0d;
-        Node v1, v2;
-        BezierPath tempPath = new BezierPath();
-        Node t1, t2;
-        tempPath.add(t1 = new Node());
-        tempPath.add(t2 = new Node());
-        for (int i = 0, n = size() - 1; i < n; i++) {
-            v1 = get(i);
-            v2 = get(i + 1);
-            if (v1.mask == 0 && v2.mask == 0) {
-                if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                } else {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], v2.x[0], v2.y[0]);
-                }
-            } else {
-                t1.setTo(v1);
-                t2.setTo(v2);
-                tempPath.invalidatePath();
-                if (tempPath.outlineContains(find, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                } else {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], v2.x[0], v2.y[0]);
-                }
-            }
-        }
-        if (isClosed && size() > 1) {
-            v1 = get(size() - 1);
-            v2 = get(0);
-            if (v1.mask == 0 && v2.mask == 0) {
-                if (Geom.lineContainsPoint(v1.x[0], v1.y[0], v2.x[0], v2.y[0], find.x, find.y, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                }
-            } else {
-                t1.setTo(v1);
-                t2.setTo(v2);
-                tempPath.invalidatePath();
-                if (tempPath.outlineContains(find, flatness)) {
-                    relativeLen += Geom.length(v1.x[0], v1.y[0], find.x, find.y);
-                    return relativeLen / len;
-                }
-            }
-        }
-        return -1;
-    }
-
-    /**
      * Gets the segment of the polyline that is hit by
      * the given Point2D.Double.
      *
@@ -1117,8 +1056,8 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * The implementation of this method has been derived from
      * Apache Batik class org.apache.batik.ext.awt.geom.ExtendedGeneralPath#computArc
      *
-     * @param rx the x radius of the ellipse
-     * @param ry the y radius of the ellipse
+     * @param _rx the x radius of the ellipse
+     * @param _ry the y radius of the ellipse
      *
      * @param xAxisRotation the angle from the x-axis of the current
      * coordinate system to the x-axis of the ellipse in degrees.
@@ -1131,38 +1070,103 @@ public class BezierPath extends ArrayList<BezierPath.Node>
      * center to arc sweeps through decreasing angles otherwise it
      * sweeps through increasing angles
      *
-     * @param x the absolute x coordinate of the final point of the arc.
-     * @param y the absolute y coordinate of the final point of the arc.
+     * @param endpoint the Point2D.Double that holds the x and y values for the final position
      */
     @FeatureEntryPoint(value = "PolygonTool")
-    public void arcTo(double rx, double ry,
+    public void arcTo(double _rx, double _ry,
             double xAxisRotation,
             boolean largeArcFlag, boolean sweepFlag,
-            double x, double y) {
+            Point2D.Double endpoint) {
+
+        double rx = _rx;
+        double ry = _ry;
+
         // Ensure radii are valid
         if (rx == 0 || ry == 0) {
-            lineTo(x, y);
+            lineTo(endpoint.x, endpoint.y);
             return;
         }
         // Get the current (x, y) coordinates of the path
         Node lastPoint = get(size() - 1);
         double x0 = ((lastPoint.mask & C2_MASK) == C2_MASK) ? lastPoint.x[2] : lastPoint.x[0];
         double y0 = ((lastPoint.mask & C2_MASK) == C2_MASK) ? lastPoint.y[2] : lastPoint.y[0];
-        if (x0 == x && y0 == y) {
+        if (x0 == endpoint.x && y0 == endpoint.y) {
             // If the endpoints (x, y) and (x0, y0) are identical, then this
             // is equivalent to omitting the elliptical arc segment entirely.
             return;
         }
-        // Compute the half distance between the current and the final point
-        double dx2 = (x0 - x) / 2d;
-        double dy2 = (y0 - y) / 2d;
-        // Convert angle from degrees to radians
-        double angle = Math.toRadians(xAxisRotation);
-        double cosAngle = Math.cos(angle);
-        double sinAngle = Math.sin(angle);
+
+        // Calculate the cos and sin angle
+        double cosAngle = Math.cos(Math.toRadians(xAxisRotation));
+        double sinAngle = Math.sin(Math.toRadians(xAxisRotation));
+
         // Step 1 : Compute (x1, y1)
-        double x1 = (cosAngle * dx2 + sinAngle * dy2);
-        double y1 = (-sinAngle * dx2 + cosAngle * dy2);
+        double x1 = (cosAngle * ((x0 - endpoint.x) / 2d) + sinAngle * ((y0 - endpoint.y) / 2d));
+        double y1 = (-sinAngle * ((x0 - endpoint.x) / 2d) + cosAngle * ((y0 - endpoint.y) / 2d));
+
+        // Step 2 : Compute (cx1, cy1)
+        // Ensure the radii are large enough
+        double[] radiiValues = ensureRadii(rx, ry, x1, y1);
+        rx = radiiValues[0];
+        ry = radiiValues[1];
+
+        double sign = (largeArcFlag == sweepFlag) ? -1 : 1;
+        double coef = (sign * Math.sqrt(radiiValues[2]));
+        double cx1 = coef * ((rx * y1) / ry);
+        double cy1 = coef * -((ry * x1) / rx);
+
+        // Step 3 : Compute (cx, cy) from (cx1, cy1)
+        double sx2 = (x0 + endpoint.x) / 2.0;
+        double sy2 = (y0 + endpoint.y) / 2.0;
+        double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
+        double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
+
+        // Step 4 : Compute the angleStart (angle1) and the angleExtent (dangle)
+        double ux = (x1 - cx1) / rx;
+        double uy = (y1 - cy1) / ry;
+
+        // Compute the angle start
+        double angleStart = computeAngleStart(ux, uy);
+
+        // Compute the angle extent
+        double angleExtent = computeAngleExtent(ux, uy, (-x1 - cx1) / rx, (-y1 - cy1) / ry);
+
+        if (!sweepFlag && angleExtent > 0) {
+            angleExtent -= 360f;
+        } else if (sweepFlag && angleExtent < 0) {
+            angleExtent += 360f;
+        }
+
+        // We can now build the resulting Arc2D in double precision
+        Arc2D.Double arc = new Arc2D.Double(
+                cx - rx, cy - ry,
+                rx * 2d, ry * 2d,
+                -(angleStart % 360f), -(angleExtent % 360f),
+                Arc2D.OPEN);
+
+        // Create a path iterator of the rotated arc
+        PathIterator iterator = arc.getPathIterator(
+                AffineTransform.getRotateInstance(
+                        Math.toRadians(xAxisRotation), arc.getCenterX(), arc.getCenterY()));
+
+        // Add the segments to the bezier path
+        addSegmentsToPath(iterator);
+    }
+
+    private static double computeAngleExtent(double ux, double uy, double vx, double vy) {
+        double n = Math.sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
+        double p = ux * vx + uy * vy;
+        double extentAngleSign = (ux * vy - uy * vx < 0) ? -1d : 1d;
+        return Math.toDegrees(extentAngleSign * Math.acos(p / n));
+    }
+
+    private double computeAngleStart(double ux, double uy){
+        double n = Math.sqrt((ux * ux) + (uy * uy));
+        double startAngleSign = (uy < 0) ? -1d : 1d;
+        return Math.toDegrees(startAngleSign * Math.acos(ux / n));
+    }
+
+    private double[] ensureRadii(double rx, double ry, double x1, double y1){
         // Ensure radii are large enough
         rx = Math.abs(rx);
         ry = Math.abs(ry);
@@ -1170,6 +1174,7 @@ public class BezierPath extends ArrayList<BezierPath.Node>
         double Pry = ry * ry;
         double Px1 = x1 * x1;
         double Py1 = y1 * y1;
+
         // check that radii are large enough
         double radiiCheck = Px1 / Prx + Py1 / Pry;
         if (radiiCheck > 1) {
@@ -1178,52 +1183,14 @@ public class BezierPath extends ArrayList<BezierPath.Node>
             Prx = rx * rx;
             Pry = ry * ry;
         }
-        // Step 2 : Compute (cx1, cy1)
-        double sign = (largeArcFlag == sweepFlag) ? -1 : 1;
+
         double sq = ((Prx * Pry) - (Prx * Py1) - (Pry * Px1)) / ((Prx * Py1) + (Pry * Px1));
         sq = (sq < 0) ? 0 : sq;
-        double coef = (sign * Math.sqrt(sq));
-        double cx1 = coef * ((rx * y1) / ry);
-        double cy1 = coef * -((ry * x1) / rx);
-        // Step 3 : Compute (cx, cy) from (cx1, cy1)
-        double sx2 = (x0 + x) / 2.0;
-        double sy2 = (y0 + y) / 2.0;
-        double cx = sx2 + (cosAngle * cx1 - sinAngle * cy1);
-        double cy = sy2 + (sinAngle * cx1 + cosAngle * cy1);
-        // Step 4 : Compute the angleStart (angle1) and the angleExtent (dangle)
-        double ux = (x1 - cx1) / rx;
-        double uy = (y1 - cy1) / ry;
-        double vx = (-x1 - cx1) / rx;
-        double vy = (-y1 - cy1) / ry;
-        double p, n;
-        // Compute the angle start
-        n = Math.sqrt((ux * ux) + (uy * uy));
-        p = ux; // (1 * ux) + (0 * uy)
-        sign = (uy < 0) ? -1d : 1d;
-        double angleStart = Math.toDegrees(sign * Math.acos(p / n));
-        // Compute the angle extent
-        n = Math.sqrt((ux * ux + uy * uy) * (vx * vx + vy * vy));
-        p = ux * vx + uy * vy;
-        sign = (ux * vy - uy * vx < 0) ? -1d : 1d;
-        double angleExtent = Math.toDegrees(sign * Math.acos(p / n));
-        if (!sweepFlag && angleExtent > 0) {
-            angleExtent -= 360f;
-        } else if (sweepFlag && angleExtent < 0) {
-            angleExtent += 360f;
-        }
-        angleExtent %= 360f;
-        angleStart %= 360f;
-        // We can now build the resulting Arc2D in double precision
-        Arc2D.Double arc = new Arc2D.Double(
-                cx - rx, cy - ry,
-                rx * 2d, ry * 2d,
-                -angleStart, -angleExtent,
-                Arc2D.OPEN);
-        // Create a path iterator of the rotated arc
-        PathIterator i = arc.getPathIterator(
-                AffineTransform.getRotateInstance(
-                        angle, arc.getCenterX(), arc.getCenterY()));
-        // Add the segments to the bezier path
+
+        return new double[]{rx, ry, sq};
+    }
+
+    private void addSegmentsToPath(PathIterator i){
         double[] coords = new double[6];
         i.next(); // skip first moveto
         while (!i.isDone()) {

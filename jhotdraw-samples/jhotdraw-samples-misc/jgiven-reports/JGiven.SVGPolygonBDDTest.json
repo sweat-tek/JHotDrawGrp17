@@ -1,11 +1,11 @@
 {
-  "className": "JGiven.SVGPathFigureBDDTEst",
-  "name": "SVG Path Figure BDDT Est",
+  "className": "JGiven.SVGPolygonBDDTest",
+  "name": "SVG Polygon BDD",
   "scenarios": [
     {
-      "className": "JGiven.SVGPathFigureBDDTEst",
-      "testMethodName": "changeActions",
-      "description": "Change actions",
+      "className": "JGiven.SVGPolygonBDDTest",
+      "testMethodName": "drawPolygon",
+      "description": "Draw polygon",
       "tagIds": [],
       "explicitParameters": [],
       "derivedParameters": [],
@@ -25,55 +25,124 @@
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1164923777,
+              "durationInNanos": 966259316,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "a line",
+              "name": "a polygon is drawn",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a polygon is drawn"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 802598361,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "drawing contains polygon",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "drawing contains polygon"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1115535,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 1834082508
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 1834082508
+    },
+    {
+      "className": "JGiven.SVGPolygonBDDTest",
+      "testMethodName": "createAnArc",
+      "description": "Create an arc",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 2684387,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a polygon",
               "words": [
                 {
                   "value": "and",
                   "isIntroWord": true
                 },
                 {
-                  "value": "a line"
+                  "value": "a polygon"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 834666658,
+              "durationInNanos": 14799015,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "a line action is changed",
+              "name": "an arc is added",
               "words": [
                 {
                   "value": "When",
                   "isIntroWord": true
                 },
                 {
-                  "value": "a line action is changed"
+                  "value": "an arc is added"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 6257113,
+              "durationInNanos": 13370608,
               "depth": 0,
               "parentFailed": false
             },
             {
-              "name": "line action rule has changed",
+              "name": "there are more nodes",
               "words": [
                 {
                   "value": "Then",
                   "isIntroWord": true
                 },
                 {
-                  "value": "line action rule has changed"
+                  "value": "there are more nodes"
                 }
               ],
               "status": "PASSED",
-              "durationInNanos": 1053519,
+              "durationInNanos": 1276746,
               "depth": 0,
               "parentFailed": false
             }
@@ -81,80 +150,11 @@
           "explicitArguments": [],
           "derivedArguments": [],
           "status": "SUCCESS",
-          "durationInNanos": 2047728151
+          "durationInNanos": 34633159
         }
       ],
       "casesAsTable": false,
-      "durationInNanos": 2047728151
-    },
-    {
-      "className": "JGiven.SVGPathFigureBDDTEst",
-      "testMethodName": "drawLine",
-      "description": "Draw line",
-      "tagIds": [],
-      "explicitParameters": [],
-      "derivedParameters": [],
-      "scenarioCases": [
-        {
-          "caseNr": 1,
-          "steps": [
-            {
-              "name": "an empty drawing",
-              "words": [
-                {
-                  "value": "Given",
-                  "isIntroWord": true
-                },
-                {
-                  "value": "an empty drawing"
-                }
-              ],
-              "status": "PASSED",
-              "durationInNanos": 3037678,
-              "depth": 0,
-              "parentFailed": false
-            },
-            {
-              "name": "a line is drawn",
-              "words": [
-                {
-                  "value": "When",
-                  "isIntroWord": true
-                },
-                {
-                  "value": "a line is drawn"
-                }
-              ],
-              "status": "PASSED",
-              "durationInNanos": 86919708,
-              "depth": 0,
-              "parentFailed": false
-            },
-            {
-              "name": "drawing contains line",
-              "words": [
-                {
-                  "value": "Then",
-                  "isIntroWord": true
-                },
-                {
-                  "value": "drawing contains line"
-                }
-              ],
-              "status": "PASSED",
-              "durationInNanos": 557117,
-              "depth": 0,
-              "parentFailed": false
-            }
-          ],
-          "explicitArguments": [],
-          "derivedArguments": [],
-          "status": "SUCCESS",
-          "durationInNanos": 91909987
-        }
-      ],
-      "casesAsTable": false,
-      "durationInNanos": 91909987
+      "durationInNanos": 34633159
     }
   ],
   "tagMap": {}

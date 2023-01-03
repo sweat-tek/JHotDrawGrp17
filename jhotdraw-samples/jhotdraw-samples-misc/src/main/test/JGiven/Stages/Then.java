@@ -5,6 +5,7 @@ import com.tngtech.jgiven.annotation.ScenarioState;
 import org.jhotdraw.draw.AttributeKeys;
 import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
+import org.jhotdraw.samples.svg.figures.SVGBezierFigure;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
 import org.jhotdraw.samples.svg.figures.SVGRectFigure;
@@ -37,6 +38,13 @@ public class Then extends Stage<Then> {
         return this;
     }
 
+    public Then drawingContainsPolygon(){
+        Figure polygon = drawing.getChildren().get(0);
+        assertNotEquals(0, drawing.getChildren().size());
+        assertEquals(polygon.getClass(), SVGBezierFigure.class);
+        return this;
+    }
+
     public Then drawingContainsLine() {
         Figure line = drawing.getChildren().get(0);
         assertNotEquals(0, drawing.getChildren());
@@ -64,6 +72,13 @@ public class Then extends Stage<Then> {
         Figure rectangle = drawing.getChildren().get(0);
         assertEquals(rectangle.getClass(), SVGRectFigure.class);
         assertNotEquals(roundedRect, rectangle);
+        return this;
+    }
+
+    public Then thereAreMoreNodes(){
+        assertTrue(drawing.getChildren().get(0) instanceof SVGBezierFigure);
+        SVGBezierFigure polygon = (SVGBezierFigure) drawing.getChildren().get(0);
+        assertNotEquals(2,polygon.getNodeCount());
         return this;
     }
 
