@@ -106,6 +106,47 @@ public class FloatingTextField {
         );
     }
 
+    protected void updateWidget2() {
+        Font font = getFont();
+
+        Rectangle fViewBounds = getRectangle();
+
+        Dimension tfDim = textField.getPreferredSize();
+        Insets tfInsets = textField.getInsets();
+        float fontBaseline = textField.getGraphics().getFontMetrics(font).getMaxAscent();
+        double fBaseline = editedFigure.getBaseline() * view.getScaleFactor();
+
+        int x = fViewBounds.x - tfInsets.left;
+        int y = fViewBounds.y - tfInsets.top - (int) (fontBaseline - fBaseline);
+        int width = Math.max(fViewBounds.width + tfInsets.left + tfInsets.right, tfDim.width);
+        int height = Math.max(fViewBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height);
+        textField.setBounds(x, y, width, height);
+    }
+
+    private Font getFont() {
+        Font font = editedFigure.getFont();
+        float fontSize = (float) (editedFigure.getFontSize() * view.getScaleFactor());
+        font = font.deriveFont(font.getStyle(), fontSize);
+        textField.setFont(font);
+        textField.setForeground(editedFigure.getTextColor());
+        textField.setBackground(editedFigure.getFillColor());
+        return font;
+    }
+
+    private Rectangle getRectangle() {
+        Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
+        Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
+        if (editedFigure.get(TRANSFORM) != null) {
+            editedFigure.get(TRANSFORM).transform(fDrawLoc, fDrawLoc);
+        }
+        Point fViewLoc = view.drawingToView(fDrawLoc);
+        Rectangle fViewBounds = view.drawingToView(fDrawBounds);
+        fViewBounds.x = fViewLoc.x;
+        fViewBounds.y = fViewLoc.y;
+        return fViewBounds;
+    }
+
+
     public Insets getInsets() {
         return textField.getInsets();
     }

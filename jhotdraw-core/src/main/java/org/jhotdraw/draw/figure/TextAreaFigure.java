@@ -128,6 +128,70 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
         }
     }
 
+    protected void drawText2(Graphics2D g) {
+        String text = getText();
+        if (text == null && !isEditable()) {
+            return;
+        }
+        Font font = getFont();
+        boolean isUnderlined = get(FONT_UNDERLINE);
+        Insets2D.Double insets = getInsets();
+        Rectangle2D.Double textRect = getaDouble(bounds.x + insets.left, bounds.y + insets.top, bounds.width - insets.left - insets.right, bounds.height - insets.top - insets.bottom);
+        float leftMargin = (float) textRect.x;
+        float rightMargin = (float) Math.max(leftMargin + 1, textRect.x + textRect.width + 1);
+        float verticalPos = (float) textRect.y;
+        float maxVerticalPos = (float) (textRect.y + textRect.height);
+        if (leftMargin >= rightMargin) {
+            return;
+        }
+        float[] tabStops = getFloats(font, textRect);
+        Shape savedClipArea = g.getClip();
+        g.clip(textRect);
+        extracted(g, text, font, isUnderlined, leftMargin, rightMargin, verticalPos, maxVerticalPos, tabStops);
+        g.setClip(savedClipArea);
+    }
+
+    private void extracted(Graphics2D g, String text, Font font, boolean isUnderlined, float leftMargin, float rightMargin, float verticalPos, float maxVerticalPos, float[] tabStops) {
+        String[] paragraphs = text.split("\n");
+        for (int i = 0; i < paragraphs.length; i++) {
+            String paragraph = paragraphs[i];
+            if (paragraph.length() == 0) {
+                paragraph = " ";
+            }
+            AttributedString as = getAttributedString(font, isUnderlined, paragraph);
+            int tabCount = paragraph.split("\t").length - 1;
+            Rectangle2D.Double paragraphBounds = drawParagraph(g, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
+            verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
+            if (verticalPos > maxVerticalPos) {
+                break;
+            }
+        }
+    }
+
+    private float[] getFloats(Font font, Rectangle2D.Double textRect) {
+        float tabWidth = (float) (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
+        float[] tabStops = new float[(int) (textRect.width / tabWidth)];
+        for (int i = 0; i < tabStops.length; i++) {
+            tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
+        }
+        return tabStops;
+    }
+
+    private static AttributedString getAttributedString(Font font, boolean isUnderlined, String paragraph) {
+        AttributedString as = new AttributedString(paragraph);
+        as.addAttribute(TextAttribute.FONT, font);
+        if (isUnderlined) {
+            as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
+        }
+        return as;
+    }
+
+    private Rectangle2D.Double getaDouble(double x, double y, double width, double height) {
+        Rectangle2D.Double textRect = new Rectangle2D.Double(x, y, width, height);
+        return textRect;
+    }
+
+
     /**
      * Draws or measures a paragraph of text at the specified y location and
      * the bounds of the paragraph.
