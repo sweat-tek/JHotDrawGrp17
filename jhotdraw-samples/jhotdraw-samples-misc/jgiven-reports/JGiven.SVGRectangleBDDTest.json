@@ -1,0 +1,161 @@
+{
+  "className": "JGiven.SVGRectangleBDDTest",
+  "name": "SVG Rectangle BDD",
+  "scenarios": [
+    {
+      "className": "JGiven.SVGRectangleBDDTest",
+      "testMethodName": "changeAction",
+      "description": "Change action",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 1564380250,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a rectangle",
+              "words": [
+                {
+                  "value": "and",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a rectangle"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 632778209,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a rectangle rounded",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a rectangle rounded"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 11553375,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "rounded rect action",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "rounded rect action"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 763083,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 2254009375
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 2254009375
+    },
+    {
+      "className": "JGiven.SVGRectangleBDDTest",
+      "testMethodName": "drawRectangle",
+      "description": "Draw rectangle",
+      "tagIds": [],
+      "explicitParameters": [],
+      "derivedParameters": [],
+      "scenarioCases": [
+        {
+          "caseNr": 1,
+          "steps": [
+            {
+              "name": "an empty drawing",
+              "words": [
+                {
+                  "value": "Given",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "an empty drawing"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 7069041,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "a rectangle is drawn",
+              "words": [
+                {
+                  "value": "When",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "a rectangle is drawn"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 48135791,
+              "depth": 0,
+              "parentFailed": false
+            },
+            {
+              "name": "drawing contains rectangle",
+              "words": [
+                {
+                  "value": "Then",
+                  "isIntroWord": true
+                },
+                {
+                  "value": "drawing contains rectangle"
+                }
+              ],
+              "status": "PASSED",
+              "durationInNanos": 877334,
+              "depth": 0,
+              "parentFailed": false
+            }
+          ],
+          "explicitArguments": [],
+          "derivedArguments": [],
+          "status": "SUCCESS",
+          "durationInNanos": 57548875
+        }
+      ],
+      "casesAsTable": false,
+      "durationInNanos": 57548875
+    }
+  ],
+  "tagMap": {}
+}
