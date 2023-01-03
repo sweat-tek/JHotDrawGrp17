@@ -29,7 +29,7 @@ public class WindingRuleAction extends AbstractAction {
     @Override
     public void actionPerformed(ActionEvent e) {
         figure.willChange();
-        if(rule == AttributeKeys.WindingRule.NON_ZERO) {
+        if (rule == AttributeKeys.WindingRule.NON_ZERO) {
             figure.set(WINDING_RULE, rule);
         }
         drawing.fireUndoableEditHappened(
