@@ -6,6 +6,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.QuadTreeDrawing;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
+import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 
 import java.awt.geom.Point2D;
 
@@ -36,6 +37,11 @@ public class Given extends Stage<Given> {
         Point2D.Double lead = new Point2D.Double(10,10);
         line.setBounds(anchor, lead);
         drawing.add(line);
+        return this;
+    }
+
+    public Given aRectangle() {
+        drawing.add(new SVGRectFigure(10, 10, 15, 5));
         return this;
     }
 

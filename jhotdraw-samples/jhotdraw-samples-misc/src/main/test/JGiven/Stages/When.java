@@ -7,6 +7,7 @@ import org.jhotdraw.draw.Drawing;
 import org.jhotdraw.draw.figure.Figure;
 import org.jhotdraw.samples.svg.figures.SVGEllipseFigure;
 import org.jhotdraw.samples.svg.figures.SVGPathFigure;
+import org.jhotdraw.samples.svg.figures.SVGRectFigure;
 
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
@@ -19,11 +20,14 @@ public class When extends Stage<When> {
 
     @ScenarioState
     Drawing drawing;
-
     @ScenarioState
     SVGEllipseFigure originalEllipse;
     @ScenarioState
     SVGPathFigure line;
+    @ScenarioState
+    SVGRectFigure roundedRect;
+
+
 
     public When translationIsPerformed(){
         assertNotNull(drawing);
@@ -58,4 +62,18 @@ public class When extends Stage<When> {
         return this;
     }
 
+    public When aRectangleIsDrawn() {
+        drawing.add(new SVGRectFigure(10, 10, 15, 5));
+        return this;
+    }
+
+    public When aRectangleRounded() {
+        assertNotNull(drawing);
+        Figure rectangle = drawing.getChildren().get(0);
+        assertEquals(rectangle.getClass(), SVGRectFigure.class);
+        roundedRect = (SVGRectFigure) rectangle.clone();
+        roundedRect.setArc(10.0, 5.0);
+        roundedRect.generateRoundRectPath();
+        return this;
+    }
 }
