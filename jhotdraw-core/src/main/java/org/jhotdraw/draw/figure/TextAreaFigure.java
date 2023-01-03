@@ -82,53 +82,6 @@ public class TextAreaFigure extends AbstractAttributedDecoratedFigure implements
     // DRAWING
     @Override
     protected void drawText(Graphics2D g) {
-        if (getText() != null || isEditable()) {
-            Font font = getFont();
-            boolean isUnderlined = get(FONT_UNDERLINE);
-            Insets2D.Double insets = getInsets();
-            Rectangle2D.Double textRect = new Rectangle2D.Double(
-                    bounds.x + insets.left,
-                    bounds.y + insets.top,
-                    bounds.width - insets.left - insets.right,
-                    bounds.height - insets.top - insets.bottom);
-            float leftMargin = (float) textRect.x;
-            float rightMargin = (float) Math.max(leftMargin + 1, textRect.x + textRect.width + 1);
-            float verticalPos = (float) textRect.y;
-            float maxVerticalPos = (float) (textRect.y + textRect.height);
-            if (leftMargin < rightMargin) {
-                //float tabWidth = (float) (getTabSize() * g.getFontMetrics(font).charWidth('m'));
-                float tabWidth = (float) (getTabSize() * font.getStringBounds("m", getFontRenderContext()).getWidth());
-                float[] tabStops = new float[(int) (textRect.width / tabWidth)];
-                for (int i = 0; i < tabStops.length; i++) {
-                    tabStops[i] = (float) (textRect.x + (int) (tabWidth * (i + 1)));
-                }
-                if (getText() != null) {
-                    Shape savedClipArea = g.getClip();
-                    g.clip(textRect);
-                    String[] paragraphs = getText().split("\n"); //Strings.split(getText(), '\n');
-                    for (int i = 0; i < paragraphs.length; i++) {
-                        if (paragraphs[i].length() == 0) {
-                            paragraphs[i] = " ";
-                        }
-                        AttributedString as = new AttributedString(paragraphs[i]);
-                        as.addAttribute(TextAttribute.FONT, font);
-                        if (isUnderlined) {
-                            as.addAttribute(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_LOW_ONE_PIXEL);
-                        }
-                        int tabCount = paragraphs[i].split("\t").length - 1;
-                        Rectangle2D.Double paragraphBounds = drawParagraph(g, as.getIterator(), verticalPos, maxVerticalPos, leftMargin, rightMargin, tabStops, tabCount);
-                        verticalPos = (float) (paragraphBounds.y + paragraphBounds.height);
-                        if (verticalPos > maxVerticalPos) {
-                            break;
-                        }
-                    }
-                    g.setClip(savedClipArea);
-                }
-            }
-        }
-    }
-
-    protected void drawText2(Graphics2D g) {
         String text = getText();
         if (text == null && !isEditable()) {
             return;

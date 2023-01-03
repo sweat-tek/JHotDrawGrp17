@@ -80,33 +80,6 @@ public class FloatingTextField {
     }
 
     protected void updateWidget() {
-        Font font = editedFigure.getFont();
-        font = font.deriveFont(font.getStyle(), (float) (editedFigure.getFontSize() * view.getScaleFactor()));
-        textField.setFont(font);
-        textField.setForeground(editedFigure.getTextColor());
-        textField.setBackground(editedFigure.getFillColor());
-        Rectangle2D.Double fDrawBounds = editedFigure.getBounds();
-        Point2D.Double fDrawLoc = new Point2D.Double(fDrawBounds.getX(), fDrawBounds.getY());
-        if (editedFigure.get(TRANSFORM) != null) {
-            editedFigure.get(TRANSFORM).transform(fDrawLoc, fDrawLoc);
-        }
-        Point fViewLoc = view.drawingToView(fDrawLoc);
-        Rectangle fViewBounds = view.drawingToView(fDrawBounds);
-        fViewBounds.x = fViewLoc.x;
-        fViewBounds.y = fViewLoc.y;
-        Dimension tfDim = textField.getPreferredSize();
-        Insets tfInsets = textField.getInsets();
-        float fontBaseline = textField.getGraphics().getFontMetrics(font).getMaxAscent();
-        double fBaseline = editedFigure.getBaseline() * view.getScaleFactor();
-        textField.setBounds(
-                fViewBounds.x - tfInsets.left,
-                fViewBounds.y - tfInsets.top - (int) (fontBaseline - fBaseline),
-                Math.max(fViewBounds.width + tfInsets.left + tfInsets.right, tfDim.width),
-                Math.max(fViewBounds.height + tfInsets.top + tfInsets.bottom, tfDim.height)
-        );
-    }
-
-    protected void updateWidget2() {
         Font font = getFont();
 
         Rectangle fViewBounds = getRectangle();
