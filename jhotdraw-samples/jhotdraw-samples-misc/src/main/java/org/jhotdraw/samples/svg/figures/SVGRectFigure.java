@@ -26,6 +26,7 @@ import org.jhotdraw.geom.Geom;
 import org.jhotdraw.geom.GrowStroke;
 import org.jhotdraw.samples.svg.Gradient;
 import org.jhotdraw.samples.svg.SVGAttributeKeys;
+import org.jhotdraw.samples.svg.action.RectRoundPathAction;
 import static org.jhotdraw.samples.svg.SVGAttributeKeys.*;
 
 /**
@@ -105,33 +106,13 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
         if (roundrect.archeight == 0 && roundrect.arcwidth == 0) {
             g.draw(roundrect.getBounds2D());
         } else {
-            // We have to generate the path for the round rectangle manually,
-            // because the path of a Java RoundRectangle is drawn counter clockwise
-            // whereas an SVG rect needs to be drawn clockwise.
-            Path2D.Double p = new Path2D.Double();
-            double aw = roundrect.arcwidth / 2d;
-            double ah = roundrect.archeight / 2d;
-            p.moveTo((roundrect.x + aw), (float) roundrect.y);
-            p.lineTo((roundrect.x + roundrect.width - aw), (float) roundrect.y);
-            p.curveTo((roundrect.x + roundrect.width - aw * ACV), (float) roundrect.y,
-                    (roundrect.x + roundrect.width), (float) (roundrect.y + ah * ACV),
-                    (roundrect.x + roundrect.width), (roundrect.y + ah));
-            p.lineTo((roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah));
-            p.curveTo(
-                    (roundrect.x + roundrect.width), (roundrect.y + roundrect.height - ah * ACV),
-                    (roundrect.x + roundrect.width - aw * ACV), (roundrect.y + roundrect.height),
-                    (roundrect.x + roundrect.width - aw), (roundrect.y + roundrect.height));
-            p.lineTo((roundrect.x + aw), (roundrect.y + roundrect.height));
-            p.curveTo((roundrect.x + aw * ACV), (roundrect.y + roundrect.height),
-                    (roundrect.x), (roundrect.y + roundrect.height - ah * ACV),
-                    (float) roundrect.x, (roundrect.y + roundrect.height - ah));
-            p.lineTo((float) roundrect.x, (roundrect.y + ah));
-            p.curveTo((roundrect.x), (roundrect.y + ah * ACV),
-                    (roundrect.x + aw * ACV), (float) (roundrect.y),
-                    (float) (roundrect.x + aw), (float) (roundrect.y));
-            p.closePath();
-            g.draw(p);
+            g.draw(generateRoundRectPath());
         }
+    }
+
+    public Path2D generateRoundRectPath() {
+        RectRoundPathAction path = new RectRoundPathAction(ACV, roundrect.height, roundrect.arcwidth, roundrect.archeight, roundrect.x, roundrect.y, roundrect.width);
+        return path.roundedRect();
     }
 
     // SHAPE AND BOUNDS
@@ -292,9 +273,7 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
     @Override
     public void transform(AffineTransform tx) {
         invalidateTransformedShape();
-        if (get(TRANSFORM) != null
-                || //              (tx.getType() & (AffineTransform.TYPE_TRANSLATION | AffineTransform.TYPE_MASK_SCALE)) != tx.getType()) {
-                (tx.getType() & (AffineTransform.TYPE_TRANSLATION)) != tx.getType()) {
+        if (isTransform(tx)) {
             if (get(TRANSFORM) == null) {
                 set(TRANSFORM, (AffineTransform) tx.clone());
             } else {
@@ -308,19 +287,31 @@ public class SVGRectFigure extends SVGAttributedFigure implements SVGFigure {
             setBounds(
                     (Point2D.Double) tx.transform(anchor, anchor),
                     (Point2D.Double) tx.transform(lead, lead));
-            if (get(FILL_GRADIENT) != null
-                    && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
-                Gradient g = FILL_GRADIENT.getClone(this);
-                g.transform(tx);
-                set(FILL_GRADIENT, g);
-            }
-            if (get(STROKE_GRADIENT) != null
-                    && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
-                Gradient g = STROKE_GRADIENT.getClone(this);
-                g.transform(tx);
-                set(STROKE_GRADIENT, g);
-            }
+            updateGradient(tx);
         }
+    }
+
+    private void updateGradient(AffineTransform tx) {
+        if (get(FILL_GRADIENT) != null
+                && !get(FILL_GRADIENT).isRelativeToFigureBounds()) {
+            Gradient g = FILL_GRADIENT.getClone(this);
+            g.transform(tx);
+            set(FILL_GRADIENT, g);
+        }
+        if (get(STROKE_GRADIENT) != null
+                && !get(STROKE_GRADIENT).isRelativeToFigureBounds()) {
+            Gradient g = STROKE_GRADIENT.getClone(this);
+            g.transform(tx);
+            set(STROKE_GRADIENT, g);
+        }
+    }
+
+    private boolean isTransform(AffineTransform tx) {
+        return (get(TRANSFORM) != null
+                || (tx.getType()
+                & (AffineTransform.TYPE_TRANSLATION))
+                != tx.getType())
+                ? true : false;
     }
 
     @Override
