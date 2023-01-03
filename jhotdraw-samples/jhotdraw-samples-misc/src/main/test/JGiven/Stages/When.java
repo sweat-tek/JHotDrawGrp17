@@ -96,4 +96,18 @@ public class When extends Stage<When> {
         polygon.setBezierPath(path);
         return this;
     }
+    public When aRectangleIsDrawn() {
+        drawing.add(new SVGRectFigure(10, 10, 15, 5));
+        return this;
+    }
+
+    public When aRectangleRounded() {
+        assertNotNull(drawing);
+        Figure rectangle = drawing.getChildren().get(0);
+        assertEquals(rectangle.getClass(), SVGRectFigure.class);
+        roundedRect = (SVGRectFigure) rectangle.clone();
+        roundedRect.setArc(10.0, 5.0);
+        roundedRect.generateRoundRectPath();
+        return this;
+    }
 }

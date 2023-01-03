@@ -55,4 +55,9 @@ public class Given extends Stage<Given> {
         return this;
     }
 
+    public Given aRectangle() {
+        drawing.add(new SVGRectFigure(10, 10, 15, 5));
+        return this;
+    }
+
 }
